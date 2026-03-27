@@ -739,12 +739,11 @@ html, body {
   font-weight: 700;
 }
 
-/* sparkline */
+/* lift chart */
 .ex-lift-chart {
-  margin-top: 9px;
-  height: 32px;
+  margin-top: 10px;
   width: 100%;
-  overflow: hidden;
+  overflow: visible;
 }
 
 /* ── GIST SYNC BANNER ── */
@@ -831,6 +830,121 @@ html, body {
 }
 .sync-hint a { color: var(--c); text-decoration: none; }
 
+/* ── GOAL ARC ── */
+.goal-arc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.goal-arc-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.goal-arc-wrap {
+  position: relative;
+  width: 88px;
+  height: 52px;
+  flex-shrink: 0;
+}
+
+.goal-arc-label {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.goal-arc-pct {
+  font-family: 'Fraunces', serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.goal-arc-name {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--text2);
+  text-align: center;
+  line-height: 1.3;
+}
+
+.goal-arc-meta {
+  font-size: 9px;
+  color: var(--text3);
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* ── COACH CARD (inline) ── */
+.coach-card {
+  margin: 0 0 0 0;
+  border-top: 1px solid var(--border);
+  padding: 11px 15px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.coach-icon {
+  font-size: 15px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.coach-body { flex: 1; min-width: 0; }
+
+.coach-next {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+
+.coach-next-lbl {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+
+.coach-next-val {
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'Fraunces', serif;
+  line-height: 1;
+}
+
+.coach-advice {
+  font-size: 11px;
+  color: var(--text2);
+  line-height: 1.55;
+}
+
+.coach-trend-chip {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
 /* Toast */
 .toast {
   position: fixed;
@@ -877,18 +991,18 @@ html, body {
 // id must be unique, matches localStorage key
 // ─────────────────────────────────────────────────────
 const TRACKABLE = {
-  // MON — sets shown are working sets; reps = working rep target for e1RM
-  'back-squat':           { name:'Back Squat',               unit:'kg', target:'140–165 kg', reps:5  },
-  'weighted-pullups':     { name:'Weighted Pull-Ups',         unit:'kg added', target:'Heavy', reps:6  },
-  'bench-press':          { name:'Barbell Bench Press',       unit:'kg', target:'Working max', reps:5  },
+  // MON
+  'back-squat':       { name:'Back Squat',            unit:'kg', target:'140–165 kg', reps:5,  goal1rm:165, increment:2.5 },
+  'weighted-pullups': { name:'Weighted Pull-Ups',      unit:'kg added', target:'Heavy', reps:6,  goal1rm:null, increment:2.5 },
+  'bench-press':      { name:'Barbell Bench Press',    unit:'kg', target:'Working max', reps:5,  goal1rm:null, increment:2.5 },
   // WED
-  'deadlift':             { name:'Deadlift',                  unit:'kg', target:'160–185 kg', reps:4  },
-  'rdl':                  { name:'Romanian Deadlift',         unit:'kg', target:'Working',    reps:10 },
-  'ohp-wed':              { name:'Strict OHP (Wed)',          unit:'kg', target:'Working max', reps:5  },
+  'deadlift':         { name:'Deadlift',               unit:'kg', target:'160–185 kg', reps:4,  goal1rm:185, increment:5   },
+  'rdl':              { name:'Romanian Deadlift',       unit:'kg', target:'Working',    reps:10, goal1rm:null, increment:5   },
+  'ohp-wed':          { name:'Strict OHP (Wed)',        unit:'kg', target:'Working max', reps:5,  goal1rm:null, increment:2.5 },
   // FRI
-  'split-squat':          { name:'Bulgarian Split Squat',     unit:'kg/side', target:'Heavy', reps:8  },
-  'ohp-fri':              { name:'Strict OHP (Fri)',          unit:'kg', target:'Working max', reps:5  },
-  'pendlay-row':          { name:'Pendlay Row',               unit:'kg', target:'Heavy',      reps:6  },
+  'split-squat':      { name:'Bulgarian Split Squat',  unit:'kg/side', target:'Heavy', reps:8,  goal1rm:null, increment:2.5 },
+  'ohp-fri':          { name:'Strict OHP (Fri)',        unit:'kg', target:'Working max', reps:5,  goal1rm:null, increment:2.5 },
+  'pendlay-row':      { name:'Pendlay Row',             unit:'kg', target:'Heavy',      reps:6,  goal1rm:null, increment:2.5 },
 };
 
 // Map exercise names in protocol to trackable IDs
@@ -958,6 +1072,109 @@ function getE1RMHistory(id) {
 function getPR1RM(id) {
   const hist = getE1RMHistory(id);
   return hist.length ? Math.max(...hist.map(h => h.e1rm)) : null;
+}
+
+// ─────────────────────────────────────────────────────
+// PROGRESSION ENGINE
+// Based on: APRE trend analysis + intermediate/advanced
+// progression rates from Zourdos, Helms, Stronger By Science
+// ─────────────────────────────────────────────────────
+
+function getProgressionAdvice(id) {
+  const cfg = TRACKABLE[id];
+  const hist = getE1RMHistory(id); // newest first
+  const entries = getLiftEntries(id); // newest first, raw weight
+
+  if (entries.length === 0) return { status: 'nodata' };
+
+  const pr = getPR1RM(id);
+  const latestWeight = entries[0].weight;
+  const latestE1rm = hist[0].e1rm;
+
+  // ── Trend analysis: last 3 sessions ──
+  const recent = hist.slice(0, 3).reverse(); // oldest to newest of recent
+  let trend = 'stable';
+  if (recent.length >= 2) {
+    const first = recent[0].e1rm;
+    const last  = recent[recent.length - 1].e1rm;
+    const delta = last - first;
+    const pctChange = delta / first;
+    if (pctChange >= 0.02) trend = 'progressing';       // +2%+ = clear gain
+    else if (pctChange <= -0.02) trend = 'declining';   // -2%+ = regressing
+    else trend = 'stable';
+  }
+
+  // ── Stall detection: same weight logged ≥ 2 consecutive sessions ──
+  let stalled = false;
+  if (entries.length >= 2) {
+    const sameCount = entries.slice(0, 3).filter(e => e.weight === latestWeight).length;
+    if (sameCount >= 2) stalled = true;
+  }
+
+  // ── Next session suggestion ──
+  // Working weight = the weight you'd load the bar with for the prescribed reps
+  // at ~80-85% 1RM intensity. We back-calculate from e1RM.
+  const workingPct = cfg.reps <= 4 ? 0.85 : cfg.reps <= 6 ? 0.82 : 0.78;
+  const suggestedWorking = Math.round((latestE1rm * workingPct) / 2.5) * 2.5;
+
+  let nextWeight;
+  let advice;
+  let urgency = 'normal'; // 'normal' | 'push' | 'hold' | 'deload'
+
+  if (trend === 'progressing' && !stalled) {
+    nextWeight = latestWeight + cfg.increment;
+    advice = `Add ${cfg.increment}kg next session — you've logged ${recent.length >= 2 ? Math.round(recent[recent.length-1].e1rm - recent[0].e1rm) + 'kg e1RM gain across recent sessions' : 'consistent progress'}. Trend is clearly up.`;
+    urgency = 'push';
+  } else if (stalled) {
+    // Stalled: check how long
+    const stalledSessions = entries.filter(e => e.weight === latestWeight).length;
+    if (stalledSessions >= 3) {
+      // Stalled 3+ sessions — microload or technique focus
+      nextWeight = latestWeight + cfg.increment;
+      advice = `You've logged ${latestWeight}${cfg.unit} for ${stalledSessions} sessions. Time to commit to the jump — add ${cfg.increment}kg and push through. If it fails, consider a deload week before retrying.`;
+      urgency = 'push';
+    } else {
+      // Stalled 2 sessions — hold, verify effort
+      nextWeight = latestWeight;
+      advice = `Same weight for 2 sessions. Hold at ${latestWeight}${cfg.unit} — but make sure the set is genuinely hard (2 reps left in the tank max). If it feels easy, you're ready to jump.`;
+      urgency = 'hold';
+    }
+  } else if (trend === 'declining') {
+    nextWeight = latestWeight - cfg.increment;
+    advice = `e1RM has dipped across recent sessions — drop ${cfg.increment}kg, rebuild quality at ${nextWeight}${cfg.unit}, then re-attack. Declining trend is often a recovery/sleep signal, not a strength loss.`;
+    urgency = 'deload';
+  } else {
+    // Stable — hold or micro-push
+    nextWeight = latestWeight;
+    advice = `Holding steady. Log ${latestWeight}${cfg.unit} again next session. If it feels like you have 3+ reps left in the tank, bump it by ${cfg.increment}kg the following session.`;
+    urgency = 'normal';
+  }
+
+  // ── Goal proximity ──
+  let goalInfo = null;
+  if (cfg.goal1rm) {
+    const gap = cfg.goal1rm - pr;
+    const pctOfGoal = Math.min(100, Math.round((pr / cfg.goal1rm) * 100));
+    // Estimate weeks at current rate
+    // Intermediate: ~2.5kg e1RM/month realistic for compounds
+    // Advanced (>80% of goal): ~1.25kg/month
+    const isNearGoal = pctOfGoal >= 80;
+    const monthlyGainKg = isNearGoal ? 1.25 : 2.5;
+    const weeksToGoal = gap > 0 ? Math.round((gap / monthlyGainKg) * 4) : 0;
+    goalInfo = { gap, pctOfGoal, weeksToGoal, pr, goal: cfg.goal1rm };
+  }
+
+  return {
+    status: 'ok',
+    trend,
+    stalled,
+    latestWeight,
+    latestE1rm,
+    nextWeight,
+    advice,
+    urgency,
+    goalInfo,
+  };
 }
 
 // ─────────────────────────────────────────────────────
@@ -1215,23 +1432,115 @@ function renderSyncBanner() {
 // SPARKLINE SVG
 // ─────────────────────────────────────────────────────
 function sparkline(history, color) {
-  const pts = history.slice(0, 12).reverse(); // oldest → newest
-  if (pts.length < 2) return '';
+  const pts = history.slice(0, 10).reverse(); // oldest → newest, max 10
+  if (pts.length < 1) return '';
+
+  const W = 320, H = 72;
+  const padL = 8, padR = 8, padT = 18, padB = 14;
+  const chartW = W - padL - padR;
+  const chartH = H - padT - padB;
+
   const vals = pts.map(p => p.e1rm);
   const min = Math.min(...vals);
   const max = Math.max(...vals);
-  const range = max - min || 1;
-  const W = 200, H = 32, pad = 3;
-  const points = pts.map((p, i) => {
-    const x = pad + (i / (pts.length - 1)) * (W - pad * 2);
-    const y = pad + (1 - (p.e1rm - min) / range) * (H - pad * 2);
-    return `${x.toFixed(1)},${y.toFixed(1)}`;
-  }).join(' ');
-  const lastX = pad + (W - pad * 2);
-  const lastY = pad + (1 - (pts[pts.length-1].e1rm - min) / range) * (H - pad * 2);
-  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:32px;display:block;" preserveAspectRatio="none">
-    <polyline points="${points}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" opacity="0.7"/>
-    <circle cx="${lastX.toFixed(1)}" cy="${lastY.toFixed(1)}" r="3" fill="${color}"/>
+  const range = max - min || 10; // avoid flat line being invisible
+
+  // Expand range slightly so dots at extremes aren't clipped
+  const minY = min - range * 0.15;
+  const maxY = max + range * 0.15;
+  const yRange = maxY - minY;
+
+  function cx(i) {
+    if (pts.length === 1) return padL + chartW / 2;
+    return padL + (i / (pts.length - 1)) * chartW;
+  }
+  function cy(val) {
+    return padT + (1 - (val - minY) / yRange) * chartH;
+  }
+
+  const coords = pts.map((p, i) => ({ x: cx(i), y: cy(p.e1rm), val: p.e1rm, weight: p.weight }));
+
+  // Line path
+  const linePath = coords.length > 1
+    ? 'M ' + coords.map(c => `${c.x.toFixed(1)},${c.y.toFixed(1)}`).join(' L ')
+    : '';
+
+  // Gradient fill path (line + close to bottom)
+  const fillPath = coords.length > 1
+    ? linePath
+      + ` L ${coords[coords.length-1].x.toFixed(1)},${(padT + chartH).toFixed(1)}`
+      + ` L ${coords[0].x.toFixed(1)},${(padT + chartH).toFixed(1)} Z`
+    : '';
+
+  const gradId = 'g' + Math.random().toString(36).slice(2, 7);
+
+  // Dots + weight labels
+  const dotsAndLabels = coords.map((c, i) => {
+    const isLast = i === coords.length - 1;
+    const isMax = c.val === Math.max(...vals);
+    const dotR = isLast ? 4 : 3;
+    const dotFill = isLast ? color : (isMax ? color : 'var(--bg3)');
+    const dotStroke = color;
+
+    // Label: show weight (not e1RM) — more intuitive at a glance
+    const label = c.weight + '';
+    // Place label above dot, nudge edge labels inward
+    let lx = c.x;
+    if (i === 0) lx = Math.max(c.x, padL + 10);
+    if (i === coords.length - 1) lx = Math.min(c.x, W - padR - 10);
+
+    const labelY = c.y - 7;
+
+    return `
+      <circle cx="${c.x.toFixed(1)}" cy="${c.y.toFixed(1)}" r="${dotR}"
+        fill="${dotFill}" stroke="${dotStroke}" stroke-width="1.5"/>
+      <text x="${lx.toFixed(1)}" y="${labelY.toFixed(1)}"
+        text-anchor="middle"
+        font-size="8.5" font-family="Instrument Sans, sans-serif" font-weight="${isLast || isMax ? '700' : '500'}"
+        fill="${isLast ? color : isMax ? color : 'var(--text3)'}">${label}</text>
+    `;
+  }).join('');
+
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:${H}px;display:block;overflow:visible;" preserveAspectRatio="xMidYMid meet">
+    <defs>
+      <linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="${color}" stop-opacity="0.18"/>
+        <stop offset="100%" stop-color="${color}" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    ${fillPath ? `<path d="${fillPath}" fill="url(#${gradId})"/>` : ''}
+    ${linePath ? `<path d="${linePath}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>` : ''}
+    ${dotsAndLabels}
+  </svg>`;
+}
+
+// ─────────────────────────────────────────────────────
+// GOAL ARC SVG
+// ─────────────────────────────────────────────────────
+function goalArcSvg(pct, color) {
+  const R = 36, cx = 44, cy = 44;
+  const startAngle = -200, endAngle = 20; // degrees, sweep = 220°
+  const sweep = 220;
+  const filled = (pct / 100) * sweep;
+
+  function polar(angleDeg, r) {
+    const rad = (angleDeg - 90) * Math.PI / 180;
+    return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+  }
+
+  function arcPath(startDeg, endDeg, r) {
+    const s = polar(startDeg, r);
+    const e = polar(endDeg, r);
+    const large = (endDeg - startDeg) > 180 ? 1 : 0;
+    return `M ${s.x.toFixed(2)} ${s.y.toFixed(2)} A ${r} ${r} 0 ${large} 1 ${e.x.toFixed(2)} ${e.y.toFixed(2)}`;
+  }
+
+  const bgPath = arcPath(startAngle, startAngle + sweep, R);
+  const fgPath = filled > 0.5 ? arcPath(startAngle, startAngle + filled, R) : '';
+
+  return `<svg viewBox="0 0 88 52" width="88" height="52">
+    <path d="${bgPath}" fill="none" stroke="var(--bg3)" stroke-width="7" stroke-linecap="round"/>
+    ${fgPath ? `<path d="${fgPath}" fill="none" stroke="${color}" stroke-width="7" stroke-linecap="round"/>` : ''}
   </svg>`;
 }
 
@@ -1245,6 +1554,7 @@ function inlineLiftHtml(trackId, color) {
   const hist = getE1RMHistory(trackId);
   const pr1rm = getPR1RM(trackId);
   const reps = cfg.reps;
+  const advice = getProgressionAdvice(trackId);
 
   const defW = last ? last.weight : '';
   const curE1rm = last ? epley(last.weight, reps) : null;
@@ -1259,31 +1569,60 @@ function inlineLiftHtml(trackId, color) {
 
   const spark = sparkline(hist, color);
 
+  // Coach card
+  let coachHtml = '';
+  if (advice.status === 'ok') {
+    const urgencyColors = { push:'#7ED4A8', hold:color, deload:'#D47E7E', normal:color };
+    const urgencyLabels = { push:'↑ Increase', hold:'Hold', deload:'↓ Reduce', normal:'Maintain' };
+    const uc = urgencyColors[advice.urgency] || color;
+    const ul = urgencyLabels[advice.urgency] || '';
+    const trendLabels = { progressing:'↑ Progressing', stable:'→ Stable', declining:'↓ Declining' };
+    const trendColors = { progressing:'#7ED4A8', stable:color, declining:'#D47E7E' };
+    const tc = trendColors[advice.trend] || color;
+
+    coachHtml = `
+      <div class="coach-card">
+        <div class="coach-icon">🎯</div>
+        <div class="coach-body">
+          <div class="coach-next">
+            <span class="coach-next-lbl">Next session</span>
+            <span class="coach-next-val" style="color:${uc};">${advice.nextWeight}${cfg.unit}</span>
+            <span class="coach-trend-chip" style="background:${uc}20;color:${uc};">${ul}</span>
+            <span class="coach-trend-chip" style="background:${tc}15;color:${tc};margin-left:auto;">${trendLabels[advice.trend]}</span>
+          </div>
+          <div class="coach-advice">${advice.advice}</div>
+        </div>
+      </div>`;
+  }
+
   return `
     <div class="ex-lift-wrap" id="lw-${trackId}">
-      <div class="ex-lift-header">
-        <div class="ex-lift-e1rm">
-          e1RM: <span id="e1rm-${trackId}">${curE1rm ? curE1rm + ' kg' : '—'}</span>
-          ${pr1rm ? `<span style="color:var(--text3);margin-left:4px;">/ PR ${pr1rm} kg</span>` : ''}
+      ${coachHtml}
+      <div style="padding:10px 15px 0;">
+        <div class="ex-lift-header">
+          <div class="ex-lift-e1rm">
+            e1RM: <span id="e1rm-${trackId}">${curE1rm ? curE1rm + ' kg' : '—'}</span>
+            ${pr1rm ? `<span style="color:var(--text3);margin-left:4px;">/ PR ${pr1rm} kg</span>` : ''}
+          </div>
+          <span class="ex-lift-pr-chip ${prChipVisible}" id="pr-chip-${trackId}">PR</span>
         </div>
-        <span class="ex-lift-pr-chip ${prChipVisible}" id="pr-chip-${trackId}">PR</span>
+        <div class="ex-lift-inputs">
+          <div class="ex-lift-field">
+            <div class="ex-lift-lbl">Weight (${cfg.unit})</div>
+            <input class="ex-lift-input" type="number" inputmode="decimal"
+              id="lw-w-${trackId}" value="${defW}" placeholder="kg" step="2.5" min="0" max="500"
+              oninput="updateE1rm('${trackId}')">
+          </div>
+          <div class="ex-lift-field" style="max-width:54px;opacity:.55;pointer-events:none;">
+            <div class="ex-lift-lbl">Reps</div>
+            <div class="ex-lift-input" style="display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:var(--text2);">${reps}</div>
+          </div>
+          <button class="ex-lift-btn" style="background:${color};color:#141414;"
+            onclick="inlineLogLift('${trackId}','${color}')">Log</button>
+        </div>
+        <div class="ex-lift-history" id="lh-${trackId}">${recentChips}</div>
+        <div class="ex-lift-chart" id="ls-${trackId}">${spark}</div>
       </div>
-      <div class="ex-lift-inputs">
-        <div class="ex-lift-field">
-          <div class="ex-lift-lbl">Weight (${cfg.unit})</div>
-          <input class="ex-lift-input" type="number" inputmode="decimal"
-            id="lw-w-${trackId}" value="${defW}" placeholder="kg" step="2.5" min="0" max="500"
-            oninput="updateE1rm('${trackId}')">
-        </div>
-        <div class="ex-lift-field" style="max-width:54px;opacity:.55;pointer-events:none;">
-          <div class="ex-lift-lbl">Reps</div>
-          <div class="ex-lift-input" style="display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:var(--text2);">${reps}</div>
-        </div>
-        <button class="ex-lift-btn" style="background:${color};color:#141414;"
-          onclick="inlineLogLift('${trackId}','${color}')">Log</button>
-      </div>
-      <div class="ex-lift-history" id="lh-${trackId}">${recentChips}</div>
-      <div class="ex-lift-chart" id="ls-${trackId}">${spark}</div>
     </div>
   `;
 }
@@ -2032,28 +2371,69 @@ function renderStatsPanel() {
   const recentHRV = sessions.filter(s => new Date(s.date) >= week && s.hrv).map(s => parseFloat(s.hrv));
   const avgHRV = recentHRV.length ? Math.round(recentHRV.reduce((a,b)=>a+b,0)/recentHRV.length) : null;
 
-  // e1RM summary for all tracked lifts
+  // ── Goal arcs for lifts with explicit 1RM goals ──
+  const goalLifts = Object.entries(TRACKABLE).filter(([id, cfg]) => cfg.goal1rm);
+  const goalArcsHtml = goalLifts.map(([id, cfg]) => {
+    const pr = getPR1RM(id);
+    const adv = getProgressionAdvice(id);
+    if (!pr) {
+      return `
+        <div class="goal-arc-card">
+          <div class="goal-arc-wrap">
+            ${goalArcSvg(0, '#7EB8D4')}
+            <div class="goal-arc-label">
+              <div class="goal-arc-pct" style="color:var(--text3);">—</div>
+            </div>
+          </div>
+          <div class="goal-arc-name">${cfg.name}</div>
+          <div class="goal-arc-meta">No data yet</div>
+        </div>`;
+    }
+    const pct = adv.goalInfo.pctOfGoal;
+    const gap = adv.goalInfo.gap;
+    const weeks = adv.goalInfo.weeksToGoal;
+    const color = pct >= 90 ? '#7ED4A8' : pct >= 70 ? '#D4A96A' : '#7EB8D4';
+    return `
+      <div class="goal-arc-card">
+        <div class="goal-arc-wrap">
+          ${goalArcSvg(pct, color)}
+          <div class="goal-arc-label">
+            <div class="goal-arc-pct" style="color:${color};">${pct}%</div>
+          </div>
+        </div>
+        <div class="goal-arc-name">${cfg.name}</div>
+        <div class="goal-arc-meta">
+          ${pr}kg e1RM / ${cfg.goal1rm}kg goal<br>
+          ${gap > 0 ? `${gap}kg to go · ~${weeks}w` : '🏆 Goal reached'}
+        </div>
+      </div>`;
+  }).join('');
+
+  // ── All lifts trend summary ──
   const liftRows = Object.entries(TRACKABLE).map(([id, cfg]) => {
     const hist = getE1RMHistory(id);
     const pr = getPR1RM(id);
     if (!pr) return null;
-    const last = hist[0];
+    const adv = getProgressionAdvice(id);
+    const trendColors = { progressing:'#7ED4A8', stable:'#D4A96A', declining:'#D47E7E' };
+    const trendLabels = { progressing:'↑', stable:'→', declining:'↓' };
+    const tc = trendColors[adv.trend] || '#7EB8D4';
+    const tl = trendLabels[adv.trend] || '—';
     const spark = sparkline(hist, '#7EB8D4');
-    let pct = null;
-    if (id === 'deadlift') pct = Math.min(100, Math.round((pr / 185) * 100));
-    if (id === 'back-squat') pct = Math.min(100, Math.round((pr / 165) * 100));
     return `
       <div style="margin-bottom:14px;">
-        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
           <span style="font-size:12px;font-weight:600;color:var(--text);">${cfg.name}</span>
-          <span style="font-size:11px;font-weight:700;color:#7EB8D4;">e1RM ${pr} kg</span>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-size:10px;font-weight:700;color:${tc};">${tl} ${adv.trend}</span>
+            <span style="font-size:11px;font-weight:700;color:#7EB8D4;">e1RM ${pr} kg</span>
+          </div>
         </div>
-        ${pct !== null ? `
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-            <div class="progress-bar-bg" style="flex:1;"><div class="progress-bar-fill" style="width:${pct}%;background:#7EB8D4;"></div></div>
-            <span style="font-size:10px;color:var(--text3);min-width:30px;text-align:right;">${pct}%</span>
-          </div>` : ''}
-        <div style="height:28px;">${spark}</div>
+        <div style="height:72px;">${spark}</div>
+        <div style="font-size:10px;color:var(--text3);margin-top:3px;">
+          Next: <span style="font-weight:700;color:var(--text);">${adv.nextWeight}${cfg.unit}</span>
+          <span style="margin-left:6px;opacity:.6;">${adv.advice.split('—')[0].trim()}</span>
+        </div>
       </div>`;
   }).filter(Boolean).join('');
 
@@ -2077,11 +2457,19 @@ function renderStatsPanel() {
       <div class="stat-card"><div class="stat-val" style="color:${avgHRV && avgHRV >= 110 ? '#7ED4A8' : avgHRV ? '#D4A96A' : 'var(--text2)'};">${avgHRV || latestHRV}</div><div class="stat-lbl">HRV</div><div class="stat-sub">${avgHRV ? '7-day avg' : 'Latest'} · target 115–125</div></div>
       <div class="stat-card"><div class="stat-val">${latestRHR}</div><div class="stat-lbl">RHR</div><div class="stat-sub">Latest · target 40–44</div></div>
     </div>
+
+    ${goalArcsHtml ? `
+    <div class="tracker-section">
+      <div class="tracker-section-head"><div class="tracker-section-title">1RM Goals</div></div>
+      <div class="goal-arc-grid">${goalArcsHtml}</div>
+    </div>` : ''}
+
     ${liftRows ? `
     <div class="tracker-section">
-      <div class="tracker-section-head"><div class="tracker-section-title">Estimated 1RM Trends</div></div>
+      <div class="tracker-section-head"><div class="tracker-section-title">All Lifts — Trends & Coaching</div></div>
       <div class="p-card">${liftRows}</div>
     </div>` : ''}
+
     <div class="tracker-section">
       <div class="tracker-section-head"><div class="tracker-section-title">HRV Trend (target: 115–125 ms)</div></div>
       <div class="p-card"><div class="progress-bar-wrap" style="display:flex;flex-direction:column;gap:6px;">${hvrvHtml}</div></div>
