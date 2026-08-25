@@ -203,7 +203,7 @@ html, body {
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  padding: 13px 15px;
+  padding: 9px 12px;
   border-bottom: 1px solid var(--border);
   transition: background .1s;
   min-height: 44px;
@@ -212,7 +212,7 @@ html, body {
 .ex-row:active { background: var(--bg3); }
 
 .ex-body  { flex: 1; min-width: 0; }
-.ex-name  { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px; line-height: 1.3; }
+.ex-name  { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.3; }
 .ex-desc  { font-size: 11px; color: var(--text2); line-height: 1.55; }
 .ex-sets  {
   font-size: 10px; font-weight: 700; color: var(--c);
@@ -337,7 +337,7 @@ html, body {
 .wo-move-num  { font-size: 9px; font-weight: 700; color: var(--text3); flex-shrink: 0; min-width: 14px; padding-top: 2px; }
 .wo-move-body { flex: 1; min-width: 0; }
 .wo-move-name { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.3; }
-.wo-move-desc { font-size: 11px; color: var(--text2); margin-top: 2px; line-height: 1.45; }
+.wo-move-desc { display: none; }
 .wo-move-reps { font-size: 10px; font-weight: 700; white-space: nowrap; padding: 2px 8px; border-radius: 5px; flex-shrink: 0; margin-top: 2px; }
 
 .wo-notes-block { padding: 13px 15px; }
@@ -658,7 +658,7 @@ html, body {
 .ex-lift-wrap {
   border-top: 1px solid var(--border);
   background: var(--bg);
-  padding: 10px 15px 12px;
+  padding: 7px 12px 8px;
 }
 
 .ex-lift-header {
@@ -682,7 +682,7 @@ html, body {
 .ex-lift-pr-chip.visible { display: inline-block; }
 
 .ex-lift-inputs {
-  display: flex; gap: 7px; align-items: flex-end;
+  display: flex; gap: 7px; align-items: center;
 }
 
 .ex-lift-field {
@@ -690,16 +690,15 @@ html, body {
 }
 
 .ex-lift-lbl {
-  font-size: 8px; font-weight: 700; letter-spacing: 1px;
-  text-transform: uppercase; color: var(--text3);
+  display: none;
 }
 
 .ex-lift-input {
   background: var(--bg2);
   border: 1px solid var(--bord2);
   border-radius: 8px;
-  padding: 9px 10px;
-  font-size: 15px; font-weight: 600;
+  padding: 7px 10px;
+  font-size: 14px; font-weight: 600;
   color: var(--text);
   font-family: 'Instrument Sans', sans-serif;
   width: 100%;
@@ -713,7 +712,7 @@ html, body {
 }
 
 .ex-lift-btn {
-  height: 42px; min-width: 54px;
+  height: 36px; min-width: 50px;
   border-radius: 8px; border: none;
   font-size: 12px; font-weight: 700;
   font-family: 'Instrument Sans', sans-serif;
@@ -892,13 +891,13 @@ html, body {
 
 /* ── COACH CARD (inline) ── */
 .coach-card {
-  margin: 0 0 0 0;
-  border-top: 1px solid var(--border);
-  padding: 11px 15px;
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
+  display: none;
 }
+
+/* Keep logging to one compact line: weight, prescribed reps, and Log. */
+.ex-lift-header,
+.ex-lift-history,
+.ex-lift-chart { display: none; }
 
 .coach-icon {
   font-size: 15px;
@@ -964,6 +963,82 @@ html, body {
   pointer-events: none;
 }
 .toast.show { opacity: 1; }
+/* ── 2026 BENCH-PRIORITY REDESIGN · INDUSTRIAL TRAINING LOG ── */
+:root {
+  --bg:#101312; --bg2:#181c1a; --bg3:#222725;
+  --border:#303633; --bord2:#434a46;
+  --text:#F4EFE5; --text2:#B8B3A9; --text3:#777D78;
+}
+
+body::before {
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.16;
+  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:32px 32px;
+}
+.app { position:relative; z-index:1; }
+.topbar { padding-top:calc(var(--sat) + 13px); background:rgba(16,19,18,.93); backdrop-filter:blur(18px); border-bottom-color:var(--bord2); }
+.app-eyebrow { color:var(--text2); letter-spacing:2.4px; }
+.topbar-title { font-size:20px; letter-spacing:-.35px; }
+.pill { border-radius:2px; padding:4px 8px; letter-spacing:1.3px; }
+.content,.notes-page,.tracker-page { width:calc(100% - 18px); max-width:780px; margin:0 18px 0 0; padding:26px 18px 38px; }
+.hero,.adapt,.phase,.hiit-wrap,.purpose { width:calc(100vw - 36px); max-width:744px; }
+.hero { position:relative; margin-bottom:18px; padding-bottom:22px; border-bottom-color:var(--bord2); }
+.day-index { font-size:9px; font-weight:700; letter-spacing:2.5px; color:var(--c); margin-bottom:8px; }
+.day-name { font-size:clamp(44px,10vw,68px); letter-spacing:-2.8px; line-height:.88; }
+.day-theme { margin-top:11px; font-size:14px; letter-spacing:.1px; }
+.adapt { position:relative; width:100%; overflow:hidden; padding:15px 16px 15px 18px; border-radius:2px; border-left:3px solid var(--c); background:linear-gradient(90deg,color-mix(in srgb,var(--c) 9%,var(--bg2)),var(--bg2)); }
+.adapt-icon { color:var(--c); font-family:'Fraunces',serif; }
+.adapt > div:last-child { flex:1 1 0; width:0; min-width:0; max-width:calc(100vw - 102px); }
+.adapt-txt { overflow-wrap:anywhere; }
+.adapt-lbl { letter-spacing:2px; }
+.adapt-txt { font-size:12px; line-height:1.55; max-width:640px; }
+.phase { margin-bottom:24px; }
+.phase-head { margin-bottom:8px; }
+.phase-num { width:28px; height:28px; border-radius:2px; font-size:10px; }
+.phase-title { text-transform:uppercase; font-size:11px; letter-spacing:1.35px; }
+.phase-dur { font-variant-numeric:tabular-nums; }
+.ex-table,.hiit-card,.p-card,.lift-card,.session-log-card,.purpose { border-radius:3px; box-shadow:0 12px 35px rgba(0,0,0,.12); }
+.ex-row { width:100%; min-height:58px; padding:12px 14px; align-items:center; overflow:hidden; }
+.ex-name { font-size:13px; letter-spacing:.05px; }
+.ex-desc { display:block; margin-top:4px; max-width:560px; color:var(--text3); line-height:1.45; }
+.ex-sets { border-radius:2px; background:transparent; border-color:color-mix(in srgb,var(--c) 35%,var(--border)); font-variant-numeric:tabular-nums; }
+.purpose { border-left:3px solid var(--c); padding:18px 19px; }
+.purpose-txt { font-size:15px; line-height:1.65; }
+.hiit-card-head,.hiit-goal-block,.hiit-constraints,.gen-row { padding-left:17px; padding-right:17px; }
+.hiit-badge,.constraint-chip,.wo-tag,.wo-meta-pill { border-radius:2px; }
+.gen-row { align-items:stretch; flex-direction:column; }
+.gen-btn { width:100%; border-radius:2px; height:auto; min-height:48px; padding:10px 15px; text-transform:uppercase; letter-spacing:.8px; white-space:normal; line-height:1.25; }
+.gen-hint { text-align:center; }
+.choice-strip { display:grid; grid-template-columns:1fr auto 1fr; align-items:stretch; gap:7px; width:calc(100vw - 36px); max-width:744px; margin:-6px 0 24px; }
+.choice-option { display:flex; flex-direction:column; justify-content:center; min-height:56px; padding:9px 11px; border:1px solid var(--border); background:var(--bg2); color:var(--text2); font-size:10px; font-weight:700; line-height:1.25; letter-spacing:.5px; }
+.choice-option span { display:block; margin-bottom:4px; color:var(--text3); font-size:7px; letter-spacing:1.5px; }
+.choice-option.active { border-color:color-mix(in srgb,var(--choice) 60%,var(--border)); background:color-mix(in srgb,var(--choice) 9%,var(--bg2)); color:var(--choice); }
+.choice-option.active span { color:var(--choice); }
+.choice-or { display:flex; align-items:center; color:var(--text3); font-size:8px; font-weight:700; letter-spacing:1px; }
+.wo-move-row { border-radius:2px; }
+.notes-page-title { font-size:42px; letter-spacing:-1.5px; margin-bottom:24px; }
+.p-card { padding:18px; margin-bottom:8px; }
+.p-title { color:var(--c); letter-spacing:1.2px; }
+.p-body { font-size:13px; }
+.tab-bar { background:rgba(16,19,18,.96); backdrop-filter:blur(18px); border-top-color:var(--bord2); overflow-x:auto; justify-content:flex-start; scrollbar-width:none; }
+.tab-btn { min-width:56px; flex:1 0 56px; }
+.tab-icon { font-family:'Instrument Sans',sans-serif; font-size:10px; font-weight:700; letter-spacing:1px; }
+.tab-label { font-size:8px; letter-spacing:.7px; }
+.tab-active-bg { border-radius:1px; }
+.toast { border-radius:2px; }
+
+@media (min-width:760px) {
+  .content,.notes-page,.tracker-page { width:100%; margin-left:auto; margin-right:auto; }
+  .hero,.adapt,.phase,.hiit-wrap,.purpose { width:100%; }
+  .choice-strip { width:100%; }
+  .topbar { padding-left:max(24px,calc((100vw - 780px)/2)); padding-right:max(24px,calc((100vw - 780px)/2)); }
+  .ex-row:hover { background:var(--bg3); }
+  .tab-bar { padding-left:max(24px,calc((100vw - 780px)/2)); padding-right:max(24px,calc((100vw - 780px)/2)); }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  *,*::before,*::after { animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; }
+}
 </style>
 </head>
 <body>
@@ -993,46 +1068,34 @@ html, body {
 // id must be unique, matches localStorage key
 // ─────────────────────────────────────────────────────
 const TRACKABLE = {
-  // MON
-  // Back Squat: 1.75× BW = 140kg. Longevity floor — robust lower body, not elite.
-  'back-squat':       { name:'Back Squat',            unit:'kg',      target:'140–165 kg', reps:5,  goal1rm:140, increment:2.5 },
-  // Weighted Pull-Ups: BW + 40kg added = meaningful pulling strength, shoulder longevity
-  'weighted-pullups': { name:'Weighted Pull-Ups',      unit:'kg added', target:'+40 kg',    reps:6,  goal1rm:40,  increment:2.5 },
-  // Bench Press: 1.25× BW = 100kg. Upper body pressing for functional independence
-  'bench-press':      { name:'Barbell Bench Press',    unit:'kg',      target:'100 kg',     reps:5,  goal1rm:100, increment:2.5 },
-  // WED
-  // Deadlift: 2.0× BW = 160kg. Attia/longevity floor for men. Already in protocol.
-  'deadlift':         { name:'Deadlift',               unit:'kg',      target:'160–185 kg', reps:4,  goal1rm:160, increment:5   },
-  // RDL: 1.5× BW = 120kg. Hamstring and posterior chain health, not tested for max
-  'rdl':              { name:'Romanian Deadlift',       unit:'kg',      target:'120 kg',     reps:10, goal1rm:120, increment:5   },
-  // Strict OHP: 0.75× BW = 60kg. Overhead pressing = functional independence (suitcase overhead)
-  'ohp-wed':          { name:'Strict OHP (Wed)',        unit:'kg',      target:'60 kg',      reps:5,  goal1rm:60,  increment:2.5 },
-  // FRI
-  // Bulgarian Split Squat: 0.75× BW per side = 60kg. Unilateral leg strength for injury prevention
-  'split-squat':      { name:'Bulgarian Split Squat',  unit:'kg/side', target:'60 kg/side', reps:8,  goal1rm:60,  increment:2.5 },
-  // OHP (Fri same as Wed — shared goal, tracked separately by day)
-  'ohp-fri':          { name:'Strict OHP (Fri)',        unit:'kg',      target:'60 kg',      reps:5,  goal1rm:60,  increment:2.5 },
-  // Pendlay Row: 1.25× BW = 100kg. Horizontal pull mirrors push for shoulder health
-  'pendlay-row':      { name:'Pendlay Row',             unit:'kg',      target:'100 kg',     reps:6,  goal1rm:100, increment:2.5 },
+  'bench-press':      { name:'Monday Bench Press',       unit:'kg',       target:'4 × 6 → add load', reps:5, increment:2.5 },
+  'paused-bench':     { name:'Friday Paused Bench',      unit:'kg',       target:'4 × 8 → add load', reps:7, goal1rm:100, increment:2.5 },
+  'back-squat':       { name:'Back Squat',               unit:'kg',       target:'3 × 6 @ 2 RIR', reps:5, increment:2.5 },
+  'front-squat':      { name:'Front Squat',              unit:'kg',       target:'3 × 10 @ 2 RIR', reps:8, increment:2.5 },
+  'weighted-pullups': { name:'Weighted Pull-Ups',        unit:'kg added', target:'3 × 8', reps:7, increment:2.5 },
+  'deadlift':         { name:'Deadlift',                 unit:'kg',       target:'3 × 5 @ 2 RIR', reps:4, increment:2.5 },
+  'rdl':              { name:'Romanian Deadlift',        unit:'kg',       target:'2 × 10', reps:9, increment:2.5 },
+  'ohp-wed':          { name:'Strict Overhead Press',    unit:'kg',       target:'2 × 10 assistance', reps:8, increment:2.5 },
+  'split-squat':      { name:'Bulgarian Split Squat',    unit:'kg/side',  target:'2 × 8 / leg', reps:8, increment:2.5 },
+  'pendlay-row':      { name:'Pendlay Row',              unit:'kg',       target:'3 × 10', reps:9, increment:2.5 },
 };
 
 // Map exercise names in protocol to trackable IDs
 const EX_NAME_TO_ID = {
-  'Back Squat': 'back-squat',
-  'Weighted Pull-Ups': 'weighted-pullups',
-  'Barbell Bench Press': 'bench-press',
+  'Back squat': 'back-squat',
+  'Front squat': 'front-squat',
+  'Weighted pull-ups': 'weighted-pullups',
+  'Bench press': 'bench-press',
+  'Paused bench press': 'paused-bench',
   'Deadlift': 'deadlift',
-  'Romanian Deadlift': 'rdl',
-  'Strict Overhead Press': null, // resolved by day below
-  'Bulgarian Split Squat': 'split-squat',
-  'Pendlay Row': 'pendlay-row',
+  'Romanian deadlift': 'rdl',
+  'Strict overhead press': 'ohp-wed',
+  'Bulgarian split squat': 'split-squat',
+  'Pendlay row or one-arm dumbbell row': 'pendlay-row',
 };
 
 // Day-specific OHP disambiguation
 function resolveTrackableId(exName, dayIdx) {
-  if (exName === 'Strict Overhead Press') {
-    return dayIdx === 2 ? 'ohp-wed' : 'ohp-fri';
-  }
   return EX_NAME_TO_ID[exName] || null;
 }
 
@@ -1668,7 +1731,7 @@ function inlineLiftHtml(trackId, color) {
   return `
     <div class="ex-lift-wrap" id="lw-${trackId}">
       ${coachHtml}
-      <div style="padding:10px 15px 0;">
+      <div>
         <div class="ex-lift-header">
           <div class="ex-lift-e1rm">
             e1RM: <span id="e1rm-${trackId}">${curE1rm ? curE1rm + ' kg' : '—'}</span>
@@ -2011,6 +2074,10 @@ const LOWER = [
   }
 ];
 
+let HIIT_WORKOUTS = {
+  FOUR_BY_FOUR: LOWER.filter(workout => workout.title === 'Pure VO2 Max')
+};
+
 function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
 // ─────────────────────────────────────────────────────
@@ -2075,7 +2142,9 @@ function resolveHiitWeight(moveName, repsStr) {
 // DAY DATA
 // ─────────────────────────────────────────────────────
 
-const DAYS = [
+// Fallback data allows the page to remain usable when opened directly from disk.
+// The application replaces it with workout.json during startup.
+let DAYS = [
   {
     day:"MON", label:"Monday", icon:"🏋️", theme:"Full-Body Strength + Z2",
     bj:"Day 1 — Strength + Cardiovascular", color:"#7EB8D4",
@@ -2156,13 +2225,25 @@ const DAYS = [
     purpose:"Wednesday is the week's structural anchor and Z2 insurance. The run-first sequence is deliberate — running before strength is the only safe order when combining both in one session. The deadlift load reduction on run days is not optional, it is injury prevention. The balance work is a direct longevity investment: unipedal stance time is the physical capacity that declines fastest with age."
   },
   {
-    day:"THU", label:"Thursday", icon:"🔥", theme:"HIIT — Lower Body",
+    day:"THU", label:"Thursday", icon:"🔥", theme:"Norwegian 4×4 — VO2 Max",
     bj:"Day 4 — Interval-Based Cardiovascular", color:"#D4B96A",
-    type:"GYM", intensity:"HIIT", duration:"40–45 MIN",
-    isHiit:true, hiitPool:"LOWER",
+    type:"GYM + OUTDOOR", intensity:"HIIT", duration:"40–45 MIN",
+    isHiit:false, hiitPool:"LOWER",
     hiitGoal:"High-output lower body and posterior chain under cardiovascular load. HR 85–95% in work periods. Norwegian 4×4 on ski erg or rower is always available as the pure VO2 max option. Check HRV before choosing format — if Wednesday run + deadlift left residual fatigue, lean toward Norwegian 4×4 on ski erg (upper-dominant) rather than a squat/hinge-heavy session.",
     constraints:["Squat or hinge required","Ski erg / row as anchor","85–95% HR in work","Norwegian 4×4 always an option","If HRV low → ski erg 4×4 over squat HIIT"],
-    adapt:"Lower body focus means Tuesday and Thursday build different qualities. Generate below or pick your own format.",
+    adapt:"The fixed Thursday session: choose a run, ski erg, or rower for 4×4 VO2-max work without adding a heavy squat or hinge day after Wednesday.",
+    phases:[
+      { name:"Warm-Up", dur:"8 min", items:[
+        {n:"Easy Run, Ski Erg, or Row + Hip Mobility", s:"5 + 3 min", d:"Build HR to 70%, then complete hip CARs and leg swings."}
+      ]},
+      { name:"Norwegian 4×4", dur:"28 min", items:[
+        {n:"Run, Ski Erg, or Row — Work", s:"4 × 4 min @ 85–95% HR", d:"Sustainable hard effort. Keep interval 4 at the same pace as interval 1."},
+        {n:"Active Recovery", s:"3 min easy between intervals", d:"Easy walk, jog, row, or ski until HR returns to 60–70%."}
+      ]},
+      { name:"Cool-Down", dur:"5 min", items:[
+        {n:"Easy Walk, Row, or Ski — Z1", s:"5 min", d:"HR below 120 before stopping."}
+      ]}
+    ],
     warmup:{ name:"Warm-Up", dur:"8 min", items:[
       {n:"Ski Erg Build-Up + Hip Mobility", s:"5 + 3 min", d:"Build HR to 70% on ski erg. Hip CARs and leg swings after."}
     ]},
@@ -2239,7 +2320,7 @@ const DAYS = [
   }
 ];
 
-const NOTES = [
+let NOTES = [
   {title:"You're Already Ahead", body:"RHR of 42–45 puts you in the top 2% of cardiovascular fitness. The goal is to maintain and extend these adaptations while adding the longevity-specific work Johnson targets."},
   {title:"Loads Are Working Sets", body:"All strength prescriptions are working weight. After 3–4 years of CrossFit you know your numbers. Push compounds to 80–85% 1RM. Rep ranges are minimums, not targets."},
   {title:"HIIT Is Your Sandbox", body:"Tuesday and Thursday give you a goal, time domain, and focus. Fill it with whatever format fits the stimulus. Use the generator or freestyle — just hit the constraints."},
@@ -2271,13 +2352,14 @@ function phaseHtml(ph, idx, color, dayIdx) {
   const rows = ph.items.map(ex => {
     const trackId = resolveTrackableId(ex.n, dayIdx);
     const logger = trackId ? inlineLiftHtml(trackId, color) : '';
+    const description = ex.d ? `<div class="ex-desc">${ex.d}</div>` : '';
     return `
       <div class="ex-row" style="${logger ? 'flex-direction:column;align-items:stretch;padding:0;' : ''}">
         ${logger ? `
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:13px 15px 10px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:9px 12px 7px;">
             <div class="ex-body">
               <div class="ex-name">${ex.n}</div>
-              <div class="ex-desc">${ex.d}</div>
+              ${description}
             </div>
             <div class="ex-sets" style="color:${color};">${ex.s}</div>
           </div>
@@ -2285,7 +2367,7 @@ function phaseHtml(ph, idx, color, dayIdx) {
         ` : `
           <div class="ex-body">
             <div class="ex-name">${ex.n}</div>
-            <div class="ex-desc">${ex.d}</div>
+            ${description}
           </div>
           <div class="ex-sets" style="color:${color};">${ex.s}</div>
         `}
@@ -2304,41 +2386,41 @@ function phaseHtml(ph, idx, color, dayIdx) {
   `;
 }
 
-function hiitBlockHtml(d) {
+function hiitBlockHtml(d, idx) {
   const col = d.color;
-  const poolVar = d.hiitPool === 'UPPER' ? 'UPPER' : 'LOWER';
-  const id = d.hiitPool.toLowerCase();
-  const dur = d.hiitPool === 'UPPER' ? '25–30 min' : '22–27 min';
-  const chips = d.constraints.map(c =>
+  const id = d.generatorPool.toLowerCase();
+  const isTuesday = d.day === 'TUE';
+  const dur = isTuesday ? '25–35 min total' : 'Replaces default';
+  const chips = d.generatorConstraints.map(c =>
     `<span class="constraint-chip" style="color:${col};border-color:${col}40;background:${col}10;">${c}</span>`
   ).join('');
 
   return `
     <div class="hiit-wrap">
       <div class="phase-head">
-        <div class="phase-num" style="background:${col};">2</div>
-        <div class="phase-title">HIIT — Your Choice</div>
+        <div class="phase-num" style="background:${col};">${idx}</div>
+        <div class="phase-title">${isTuesday ? 'Optional short HIIT' : 'Alternative primary HIIT'}</div>
         <div class="phase-dur">${dur}</div>
       </div>
       <div class="hiit-card" style="border-color:${col}35;">
         <div class="hiit-card-head" style="background:${col}10;">
-          <span class="hiit-badge" style="background:${col}22;color:${col};">HIIT · ${d.hiitPool}</span>
-          <span class="hiit-card-name">${d.hiitPool === 'UPPER' ? 'Upper Body Metabolic' : 'Lower Body + Posterior'}</span>
+          <span class="hiit-badge" style="background:${col}22;color:${col};">${d.generatorBadge}</span>
+          <span class="hiit-card-name">${isTuesday ? 'Short machine session' : 'Variety-week replacement'}</span>
         </div>
         <div class="hiit-goal-block">
-          <div class="hiit-goal-lbl">Goal</div>
-          <div class="hiit-goal-txt">${d.hiitGoal}</div>
+          <div class="hiit-goal-lbl">Replacement rule</div>
+          <div class="hiit-goal-txt">${d.generatorGoal}</div>
         </div>
         <div class="hiit-constraints">${chips}</div>
         <div class="gen-row">
           <button class="gen-btn" id="gbtn-${id}" style="background:${col};color:#141414;"
-            onclick="genWorkout('${id}','${poolVar}','${col}')">
-            <span id="gicon-${id}">⚡</span> Generate
+            onclick="genWorkout('${id}','${d.generatorPool}','${col}')">
+            <span id="gicon-${id}">⚡</span> ${d.generatorLabel}
           </button>
-          <span class="gen-hint">Tap to get a random workout matching these constraints</span>
+          <span class="gen-hint">${d.generatorHint}</span>
         </div>
         <div id="wo-out-${id}">
-          <div class="wo-empty">Tap Generate to build your workout ↑</div>
+          <div class="wo-empty">${isTuesday ? 'Zone 2 remains today’s default.' : 'Norwegian 4 × 4 remains today’s default.'}</div>
         </div>
       </div>
     </div>
@@ -2346,7 +2428,8 @@ function hiitBlockHtml(d) {
 }
 
 function genWorkout(id, poolName, color) {
-  const pool = poolName === 'UPPER' ? UPPER : LOWER;
+  const pool = HIIT_WORKOUTS[poolName] || [];
+  if (!pool.length) return;
   const icon = document.getElementById('gicon-' + id);
   icon.classList.remove('spinning');
   void icon.offsetWidth;
@@ -2405,7 +2488,7 @@ function genWorkout(id, poolName, color) {
 
 function renderNotes() {
   document.documentElement.style.setProperty('--c', '#D4A96A');
-  document.getElementById('topbar-title').textContent = 'Advanced Notes';
+  document.getElementById('topbar-title').textContent = 'Progression + Fuel';
   document.getElementById('topbar-title').style.color = 'var(--text2)';
   document.getElementById('topbar-right').innerHTML = '';
 
@@ -2416,9 +2499,9 @@ function renderNotes() {
     </div>
   `).join('');
 
-  document.getElementById('main-view').innerHTML = renderSyncBanner() + `
+  document.getElementById('main-view').innerHTML = `
     <div class="notes-page">
-      <div class="notes-page-title">Advanced Athlete Notes</div>
+      <div class="notes-page-title">Permanent rules</div>
       ${cards}
     </div>
   `;
@@ -2442,7 +2525,7 @@ function renderTracker() {
     <button class="tracker-tab ${trackerTab === t.id ? 'active' : ''}" onclick="switchTrackerTab('${t.id}')">${t.label}</button>
   `).join('');
 
-  document.getElementById('main-view').innerHTML = `
+  document.getElementById('main-view').innerHTML = renderSyncBanner() + `
     <div class="tracker-page">
       <div class="tracker-tabs">${tabsHtml}</div>
       <div id="tracker-content"></div>
@@ -2573,7 +2656,7 @@ function renderStatsPanel() {
     <div class="tracker-section">
       <div class="tracker-section-head"><div class="tracker-section-title">1RM Goals</div></div>
       <div style="font-size:10px;color:var(--text3);margin-bottom:10px;line-height:1.5;">
-        Based on bodyweight ratios linked to longevity and functional independence at 80kg. Not powerlifting targets — thresholds where the evidence shows meaningful mortality and healthspan benefit.
+        The paused-bench arc tracks progress toward the 100 kg checkpoint. Other lifts follow their prescribed rep ranges and RIR rather than arbitrary max targets.
       </div>
       <div class="goal-arc-grid">${goalArcsHtml}</div>
     </div>` : ''}
@@ -2673,9 +2756,7 @@ function renderDay() {
   document.getElementById('topbar-title').textContent = d.label + ' · ' + d.theme;
   document.getElementById('topbar-title').style.color = col;
 
-  const typeStyle = d.type === 'OUTDOOR'
-    ? `color:#7ED490;border-color:#7ED49040;background:#7ED49012;`
-    : `color:${col};border-color:${col}40;background:${col}12;`;
+  const typeStyle = `color:${col};border-color:${col}40;background:${col}12;`;
   document.getElementById('topbar-right').innerHTML = `
     <span class="pill" style="${typeStyle}">${d.type}</span>
     <span class="pill" style="color:${col};border-color:${col}40;background:${col}12;">${d.duration}</span>
@@ -2683,34 +2764,39 @@ function renderDay() {
 
   let html = `<div class="content">
     <div class="hero">
+      <div class="day-index">DAY ${d.icon}</div>
       <div class="day-name">${d.label}</div>
       <div class="day-theme">${d.theme}</div>
-      <div class="source-tag"><b>Johnson</b> ${d.bj}</div>
     </div>
     <div class="adapt">
-      <div class="adapt-icon">⚡</div>
+      <div class="adapt-icon">→</div>
       <div>
-        <div class="adapt-lbl">Advanced Adaptation</div>
-        <div class="adapt-txt">${d.adapt}</div>
+        <div class="adapt-lbl">Session intent</div>
+        <div class="adapt-txt">${d.intent}</div>
       </div>
     </div>`;
 
-  if (d.isHiit) {
-    html += phaseHtml(d.warmup, 1, col, cur);
-    html += hiitBlockHtml(d);
-    html += phaseHtml(d.z2, 3, col, cur);
-  } else {
-    d.phases.forEach((ph, i) => { html += phaseHtml(ph, i + 1, col, cur); });
+  if (d.generatorPool) {
+    const defaultLabel = d.day === 'TUE' ? 'ZONE 2' : 'NORWEGIAN 4 × 4';
+    const alternativeLabel = d.day === 'TUE' ? 'SHORT HIIT' : 'GENERATED PRIMARY HIIT';
+    html += `<div class="choice-strip" style="--choice:${col}">
+      <div class="choice-option active"><span>DEFAULT</span>${defaultLabel}</div>
+      <div class="choice-or">OR</div>
+      <div class="choice-option"><span>REPLACEMENT</span>${alternativeLabel}</div>
+    </div>`;
   }
+
+  d.phases.forEach((ph, i) => { html += phaseHtml(ph, i + 1, col, cur); });
+  if (d.generatorPool) html += hiitBlockHtml(d, d.phases.length + 1);
 
   html += `
     <div class="purpose" style="background:${col}0C;border-color:${col}28;">
-      <div class="purpose-lbl" style="color:${col};">Purpose</div>
-      <div class="purpose-txt">${d.purpose}</div>
+      <div class="purpose-lbl" style="color:${col};">Keep in mind</div>
+      <div class="purpose-txt">${d.cue}</div>
     </div>
   </div>`;
 
-  document.getElementById('main-view').innerHTML = renderSyncBanner() + html;
+  document.getElementById('main-view').innerHTML = html;
   document.getElementById('scroll-area').scrollTop = 0;
 }
 
@@ -2766,11 +2852,34 @@ function selTracker() {
 // INIT
 // ─────────────────────────────────────────────────────
 
-const dayMap = {1:0, 2:1, 3:2, 4:3, 5:4, 6:5, 0:6};
-cur = dayMap[new Date().getDay()] ?? 0;
-migrateOldKeys();
-renderDay();
-renderTabBar();
+async function init() {
+  try {
+    const response = await fetch('./workout.json');
+    if (!response.ok) throw new Error(`Unable to load workout data (${response.status})`);
+    const workout = await response.json();
+    if (!Array.isArray(workout.days) || workout.days.length !== 7) {
+      throw new Error('Workout data must contain seven days.');
+    }
+    DAYS = workout.days;
+    NOTES = Array.isArray(workout.guide) ? workout.guide : NOTES;
+    HIIT_WORKOUTS = workout.hiitWorkouts || HIIT_WORKOUTS;
+    document.title = workout.title || document.title;
+  } catch (error) {
+    console.warn('Using embedded workout fallback:', error);
+    showToast('Using offline workout data');
+  }
+
+  const dayMap = {1:0, 2:1, 3:2, 4:3, 5:4, 6:5, 0:6};
+  cur = dayMap[new Date().getDay()] ?? 0;
+  const requestedDay = new URLSearchParams(location.search).get('day');
+  const requestedIndex = DAYS.findIndex(day => day.day.toLowerCase() === (requestedDay || '').toLowerCase());
+  if (requestedIndex >= 0) cur = requestedIndex;
+  migrateOldKeys();
+  renderDay();
+  renderTabBar();
+}
+
+init();
 </script>
 </body>
 </html>
