@@ -4,10 +4,10 @@
   "summary": ["3 strength sessions", "2 bench exposures", "1 required HIIT", "2 aerobic sessions", "1 recovery day"],
   "days": [
     {
-      "day":"MON","label":"Monday","icon":"01","theme":"Heavy Bench + Full-Body Strength","color":"#F2C14E","type":"STRENGTH","duration":"43–47 MIN",
+      "day":"MON","label":"Monday","icon":"01","theme":"Heavy Bench + Full-Body Strength","color":"#F2C14E","type":"STRENGTH","duration":"46–50 MIN",
       "intent":"Bench is always first. Build the week around crisp, submaximal strength work with one to two repetitions still available.",
       "phases":[
-        {"name":"Warm-up","dur":"5 min","items":[{"n":"Rower","s":"2–3 min","d":"Easy, then gradually build effort."},{"n":"Movement circuit","s":"1 round","d":"8 push-ups · 10 bodyweight squats · 8 scapular pull-ups."},{"n":"Ramp-up sets","s":"As needed","d":"Brief bench and squat preparation sets."}]},
+        {"name":"Warm-up","dur":"7–8 min","items":[{"n":"Easy row","s":"5 min","d":"Start easy, then gradually build effort."},{"n":"Movement circuit","s":"1 round","d":"8 push-ups · 10 bodyweight squats · 8 scapular pull-ups."},{"n":"Ramp-up sets","s":"As needed","d":"Brief bench and squat preparation sets."}]},
         {"name":"Primary strength","dur":"~25 min","items":[{"n":"Bench press","s":"4 × 4–6","d":"1–2 RIR · Rest 2½–3 min · Controlled descent and brief chest pause."},{"n":"Back squat","s":"3 × 5–6","d":"2 RIR · Rest 2–3 min."}]},
         {"name":"Alternating pair","dur":"~9 min","items":[{"n":"Weighted pull-ups","s":"3 × 6–8","d":"Alternate with Romanian deadlifts."},{"n":"Romanian deadlift","s":"2 × 8–10","d":"Rest 60–90 sec after each exercise."}]},
         {"name":"Arm + delt circuit","dur":"2 rounds","items":[{"n":"Dumbbell curl","s":"10–15","d":"Move directly to the next exercise."},{"n":"Skull crusher","s":"10–15","d":"Controlled range of motion."},{"n":"Dumbbell lateral raise","s":"15–25","d":"Rest 45–60 sec after each round."}]}
@@ -26,14 +26,15 @@
       ],"cue":"Given your VO₂ max, choose Zone 2 more often than Tuesday HIIT. Never combine them. If Wednesday deadlift warm-ups feel unusually heavy, perform only two deadlift working sets that week."
     },
     {
-      "day":"WED","label":"Wednesday","icon":"03","theme":"Deadlift + Full-Body Strength","color":"#F08A5D","type":"STRENGTH","duration":"42–46 MIN",
+      "day":"WED","label":"Wednesday","icon":"03","theme":"Deadlift + Full-Body Strength","color":"#F08A5D","type":"STRENGTH","duration":"52–58 MIN",
       "intent":"Deadlift leads. Overhead press stays assistance work so Friday's paused bench remains protected.",
       "phases":[
-        {"name":"Warm-up","dur":"5 min","items":[{"n":"Easy row","s":"2 min","d":"Smooth and relaxed."},{"n":"Movement circuit","s":"1 round","d":"10 glute bridges · 6 reverse lunges/leg · 10 wall slides or band pull-aparts."},{"n":"Deadlift ramp-up sets","s":"As needed","d":"Build to the working load without fatigue."}]},
-        {"name":"Primary pull","dur":"~12 min","items":[{"n":"Deadlift","s":"3 × 3–5","d":"2 RIR · Rest 2½–3 min."}]},
+        {"name":"Warm-up","dur":"8 min","items":[{"n":"Easy row","s":"5 min","d":"Smooth and relaxed."},{"n":"Movement circuit","s":"1 round","d":"10 glute bridges · 6 reverse lunges/leg · 10 wall slides or band pull-aparts."},{"n":"Deadlift ramp-up sets","s":"As needed","d":"Build to the working load without fatigue."}]},
+        {"name":"Primary pull","dur":"~18 min","items":[{"n":"Deadlift","s":"5 × 5","d":"2 RIR · Rest 2½–3 min · Keep all five sets technically consistent."}]},
         {"name":"Alternating upper-body pair","dur":"~10 min","items":[{"n":"Strict overhead press","s":"2 × 6–10","d":"Assistance work; do not chase numbers at Friday's expense."},{"n":"Pendlay row or one-arm dumbbell row","s":"3 × 8–10","d":"Alternate exercises · Rest 75–90 sec."}]},
         {"name":"Single-leg strength","dur":"~7 min","items":[{"n":"Bulgarian split squat","s":"2 × 8 / leg","d":"Approximately 2 RIR · Rest 75–90 sec."}]},
-        {"name":"Push + calf pair","dur":"~6 min","items":[{"n":"Dips","s":"2 × 6–12","d":"Controlled reps."},{"n":"Standing calf raise","s":"2 × 10–15","d":"Rest 45–60 sec."}]}
+        {"name":"Push + calf pair","dur":"~6 min","items":[{"n":"Dips","s":"2 × 6–12","d":"Controlled reps."},{"n":"Standing calf raise","s":"2 × 10–15","d":"Rest 45–60 sec."}]},
+        {"name":"Carry finisher","dur":"~4 min","items":[{"n":"Farmer walk","s":"2 × 30–40 m","d":"Heavy enough to challenge posture, but stop before grip failure."}]}
       ],"cue":"Keep the press honest and repeatable. Friday's bench is the priority."
     },
     {
@@ -50,10 +51,10 @@
       "cue":"Choose exactly one: Norwegian 4 × 4 or a generated alternative. A loaded CrossFit workout may replace the session, but then omit Friday front squats."
     },
     {
-      "day":"FRI","label":"Friday","icon":"05","theme":"Paused Bench + Hypertrophy","color":"#A78BFA","type":"STRENGTH","duration":"43–48 MIN",
+      "day":"FRI","label":"Friday","icon":"05","theme":"Paused Bench + Hypertrophy","color":"#A78BFA","type":"STRENGTH","duration":"46–51 MIN",
       "intent":"A second precise bench exposure plus efficient hypertrophy work. If Saturday will be an interval run, omit front squats—do not relocate them.",
       "phases":[
-        {"name":"Warm-up","dur":"5 min","items":[{"n":"Easy row or SkiErg","s":"2 min","d":"Relaxed rhythm."},{"n":"Movement circuit","s":"1 round","d":"8 push-ups · 8 goblet squats · 8 scapular pull-ups."},{"n":"Bench ramp-up sets","s":"As needed","d":"Prepare the pause and working groove."}]},
+        {"name":"Warm-up","dur":"8 min","items":[{"n":"Easy row","s":"5 min","d":"Relaxed rhythm, gradually building effort."},{"n":"Movement circuit","s":"1 round","d":"8 push-ups · 8 goblet squats · 8 scapular pull-ups."},{"n":"Bench ramp-up sets","s":"As needed","d":"Prepare the pause and working groove."}]},
         {"name":"Bench + squat","dur":"~24 min","items":[{"n":"Paused bench press","s":"4 × 6–8","d":"One clear chest pause · 2 RIR · Rest 2–2½ min."},{"n":"Front squat","s":"3 × 6–10","d":"2 RIR · Rest ~2 min · Omit before a Saturday interval run."}]},
         {"name":"Vertical pull","dur":"~7 min","items":[{"n":"Chin-ups","s":"3 × 6–10","d":"Add weight once 10 controlled reps are comfortable · Rest 75–90 sec."}]},
         {"name":"Delt + curl pair","dur":"3 rounds","items":[{"n":"Dumbbell lateral raise","s":"12–25","d":"Pair with curls."},{"n":"Incline dumbbell curl or hammer curl","s":"10–15","d":"Rest 45–60 sec."}]},
@@ -95,7 +96,7 @@
     {"title":"Monday bench · 4–6 reps","body":"Begin with a load you can complete for 4 × 4 with 1–2 RIR. Add repetitions until all four sets reach 6 clean reps, then add 2.5 kg and return to 4. Fractional plates allowing a 1 kg increase are useful when needed."},
     {"title":"Friday bench · 6–8 reps","body":"Begin with a load you can pause for 4 × 6 at 2 RIR. Progress toward 4 × 8, then add 2.5 kg and return to 6. Monday and Friday earn increases independently."},
     {"title":"The 100 kg checkpoint","body":"When you can bench approximately 87.5 kg × 5 with one clean repetition available, a 100 kg attempt is reasonable. Use a spotter or correctly positioned safeties."},
-    {"title":"Other exercises","body":"Reach the top of the prescribed range on every set while maintaining the intended RIR. Add the smallest practical weight, then return to the bottom of the range. Never increase load merely because the calendar says so."},
+    {"title":"Other exercises","body":"Reach the top of the prescribed range on every set while maintaining the intended RIR. Add the smallest practical weight, then return to the bottom of the range. Never increase load merely because the calendar says so. Wednesday deadlifts use five sets of five at 2 RIR."},
     {"title":"HIIT week selection","body":"One-HIIT week: Tuesday Zone 2 and Thursday Norwegian 4 × 4. Occasional two-HIIT week: when recovered, Tuesday's short generated HIIT replaces Zone 2 while Thursday remains 4 × 4; this is an option, not an expected weekly quota. Given your VO₂ max, Tuesday Zone 2 should remain the more common choice. Variety week: Tuesday Zone 2 and Thursday's generated primary HIIT replaces 4 × 4."},
     {"title":"Tuesday autoregulation","body":"Tuesday HIIT is optional, machine-dominant, and never added to Zone 2. If Wednesday deadlift warm-ups feel unusually heavy after it, perform only two deadlift working sets that week. This is an autoregulation rule, not a separate phase."},
     {"title":"Loaded CrossFit exception","body":"If you deliberately use one of the old loaded CrossFit workouts, use it as Thursday's entire session, omit Norwegian 4 × 4, and omit Friday front squats. Never combine the sessions."},
@@ -103,6 +104,6 @@
     {"title":"Fatigue adjustments","body":"After two declining sessions: return Tuesday to Zone 2; remove one set from curls, lateral raises, and triceps; if needed, reduce deadlifts to two working sets for that week. Keep the main bench practice unless shoulder or elbow pain is present."},
     {"title":"Morning nutrition","body":"Before: 400–600 ml water; coffee or modest caffeine is optional; electrolytes only when useful. After: eat within about two hours, include 35–45 g protein and carbohydrates—especially after strength and HIIT—and continue toward roughly 150 g daily protein."},
     {"title":"When performance feels flat","body":"Test one banana, 20–30 g whey protein, and water before training. This is optional; keep it only if actual bench or HIIT performance improves."},
-    {"title":"Weekly structure","body":"Monday heavy bench and full-body strength · Tuesday Zone 2 or optional short generated HIIT · Wednesday deadlift and full-body strength · Thursday Norwegian 4 × 4 or generated primary HIIT · Friday paused bench and hypertrophy · Saturday equipment-free 50–70-minute run · Sunday rest."}
+    {"title":"Weekly structure","body":"Monday heavy bench and full-body strength · Tuesday Zone 2 or optional short generated HIIT · Wednesday 5 × 5 deadlift, full-body strength, and farmer walk · Thursday Norwegian 4 × 4 or generated primary HIIT · Friday paused bench and hypertrophy · Saturday equipment-free 50–70-minute run · Sunday rest."}
   ]
 }

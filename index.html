@@ -711,6 +711,24 @@ html, body {
   background: var(--bg3);
 }
 
+.ex-lift-recommendation {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex:0 0 58px;
+  min-height:36px;
+  padding:7px 6px;
+  border:1px solid var(--rec-color,var(--bord2));
+  border-radius:8px;
+  background:color-mix(in srgb,var(--rec-color,var(--text3)) 10%,var(--bg2));
+  color:var(--rec-color,var(--text2));
+  font-size:13px;
+  font-weight:800;
+  font-variant-numeric:tabular-nums;
+  letter-spacing:-.15px;
+  white-space:nowrap;
+}
+
 .ex-lift-btn {
   height: 36px; min-width: 50px;
   border-radius: 8px; border: none;
@@ -1073,7 +1091,7 @@ const TRACKABLE = {
   'back-squat':       { name:'Back Squat',               unit:'kg',       target:'3 × 6 @ 2 RIR', reps:5, increment:2.5 },
   'front-squat':      { name:'Front Squat',              unit:'kg',       target:'3 × 10 @ 2 RIR', reps:8, increment:2.5 },
   'weighted-pullups': { name:'Weighted Pull-Ups',        unit:'kg added', target:'3 × 8', reps:7, increment:2.5 },
-  'deadlift':         { name:'Deadlift',                 unit:'kg',       target:'3 × 5 @ 2 RIR', reps:4, increment:2.5 },
+  'deadlift':         { name:'Deadlift',                 unit:'kg',       target:'5 × 5 @ 2 RIR', reps:5, increment:2.5 },
   'rdl':              { name:'Romanian Deadlift',        unit:'kg',       target:'2 × 10', reps:9, increment:2.5 },
   'ohp-wed':          { name:'Strict Overhead Press',    unit:'kg',       target:'2 × 10 assistance', reps:8, increment:2.5 },
   'split-squat':      { name:'Bulgarian Split Squat',    unit:'kg/side',  target:'2 × 8 / leg', reps:8, increment:2.5 },
@@ -1227,14 +1245,24 @@ function getProgressionAdvice(id) {
   // ── Recovery detection ──
   // If trend is declining but the most recent session was already lower than the one
   // before (you already dropped), treat as "recovering" — hold and rebuild, don't drop again.
-  const alreadyDropped = trend === 'declining' && sessionDelta <= 0;
+  const alreadyDropped = trend === 'declining' && sessionDelta < 0;
 
   // ── Next session suggestion ──
   let nextWeight;
   let advice;
   let urgency = 'normal';
 
-  if (trend === 'progressing' && !stalled) {
+  if (trend === 'declining' && !alreadyDropped) {
+    // Repetitions/e1RM fell at the same load — suggest the first reduction.
+    nextWeight = latestWeight - cfg.increment;
+    advice = `e1RM has dipped across recent sessions. Drop to ${nextWeight}${cfg.unit} next session, rebuild quality there, then re-attack. Declining trend is usually a recovery or sleep signal, not a real strength loss.`;
+    urgency = 'deload';
+  } else if (alreadyDropped) {
+    // You already responded to the dip by going lighter — now hold and rebuild.
+    nextWeight = latestWeight;
+    advice = `You've already pulled back the weight — good response. Hold at ${latestWeight}${cfg.unit} this session and make it a quality set. Once it feels solid with 2–3 reps left in the tank, start working back up by ${cfg.increment}kg.`;
+    urgency = 'hold';
+  } else if (trend === 'progressing' && !stalled) {
     nextWeight = latestWeight + cfg.increment;
     advice = `Add ${cfg.increment}kg next session — you've logged ${recent.length >= 2 ? Math.round(recent[recent.length-1].e1rm - recent[0].e1rm) + 'kg e1RM gain across recent sessions' : 'consistent progress'}. Trend is clearly up.`;
     urgency = 'push';
@@ -1249,16 +1277,6 @@ function getProgressionAdvice(id) {
       advice = `Same weight for 2 sessions. Hold at ${latestWeight}${cfg.unit} — but make sure the set is genuinely hard (2 reps left in the tank max). If it feels easy, you're ready to jump.`;
       urgency = 'hold';
     }
-  } else if (trend === 'declining' && !alreadyDropped) {
-    // Declining and you haven't dropped yet — suggest the first drop
-    nextWeight = latestWeight - cfg.increment;
-    advice = `e1RM has dipped across recent sessions. Drop to ${nextWeight}${cfg.unit} next session, rebuild quality there, then re-attack. Declining trend is usually a recovery or sleep signal, not a real strength loss.`;
-    urgency = 'deload';
-  } else if (alreadyDropped) {
-    // You already responded to the dip by going lighter — now hold and rebuild
-    nextWeight = latestWeight;
-    advice = `You've already pulled back the weight — good response. Hold at ${latestWeight}${cfg.unit} this session and make it a quality set. Once it feels solid with 2–3 reps left in the tank, start working back up by ${cfg.increment}kg.`;
-    urgency = 'hold';
   } else {
     nextWeight = latestWeight;
     advice = `Holding steady. Log ${latestWeight}${cfg.unit} again next session. If it feels like you have 3+ reps left in the tank, bump it by ${cfg.increment}kg the following session.`;
@@ -1675,6 +1693,20 @@ function inlineLiftHtml(trackId, color) {
   const curE1rm = last ? epley(last.weight, reps) : null;
   const prChipVisible = curE1rm && curE1rm === pr1rm ? 'visible' : '';
 
+  const recommendation = (() => {
+    if (advice.status !== 'ok') {
+      return { text:'—', color:'var(--text3)', label:'Log a working weight to start progression guidance' };
+    }
+    const delta = Number((advice.nextWeight - advice.latestWeight).toFixed(2));
+    if (delta > 0) {
+      return { text:`+${delta}`, color:'#7ED4A8', label:`Increase by ${delta} kg next session to ${advice.nextWeight} kg` };
+    }
+    if (delta < 0) {
+      return { text:`−${Math.abs(delta)}`, color:'#D47E7E', label:`Reduce by ${Math.abs(delta)} kg next session to ${advice.nextWeight} kg` };
+    }
+    return { text:'=', color:color, label:`Stay at ${advice.nextWeight} kg next session` };
+  })();
+
   const recentChips = hist.slice(0, 5).map(h => {
     const d = new Date(h.date);
     const dateStr = d.toLocaleDateString('en-DK', { day:'numeric', month:'short' });
@@ -1746,10 +1778,8 @@ function inlineLiftHtml(trackId, color) {
               id="lw-w-${trackId}" value="${defW}" placeholder="kg" step="2.5" min="0" max="500"
               oninput="updateE1rm('${trackId}')">
           </div>
-          <div class="ex-lift-field" style="max-width:54px;opacity:.55;pointer-events:none;">
-            <div class="ex-lift-lbl">Reps</div>
-            <div class="ex-lift-input" style="display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:var(--text2);">${reps}</div>
-          </div>
+          <div class="ex-lift-recommendation" style="--rec-color:${recommendation.color};"
+            role="status" aria-label="${recommendation.label}" title="${recommendation.label}">${recommendation.text}</div>
           <button class="ex-lift-btn" style="background:${color};color:#141414;"
             onclick="inlineLogLift('${trackId}','${color}')">Log</button>
         </div>
