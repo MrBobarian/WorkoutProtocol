@@ -1057,6 +1057,47 @@ body::before {
 @media (prefers-reduced-motion:reduce) {
   *,*::before,*::after { animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; }
 }
+
+/* Compact gym view: show the prescription, not coaching essays.
+   Full descriptions remain accessible through the Details switch. */
+body:not(.show-workout-details) .adapt,
+body:not(.show-workout-details) .purpose,
+body:not(.show-workout-details) .choice-strip,
+body:not(.show-workout-details) .ex-desc,
+body:not(.show-workout-details) .coach-card,
+body:not(.show-workout-details) .ex-lift-header,
+body:not(.show-workout-details) .ex-lift-history,
+body:not(.show-workout-details) .ex-lift-chart,
+body:not(.show-workout-details) .hiit-card-head,
+body:not(.show-workout-details) .hiit-goal-block,
+body:not(.show-workout-details) .hiit-constraints,
+body:not(.show-workout-details) .gen-hint,
+body:not(.show-workout-details) .wo-tagline,
+body:not(.show-workout-details) .wo-meta-pills,
+body:not(.show-workout-details) .wo-move-desc,
+body:not(.show-workout-details) .wo-notes-block,
+body:not(.show-workout-details) .wo-structure-lbl,
+body:not(.show-workout-details) .wo-move-num,
+body:not(.show-workout-details) .wo-empty { display:none !important; }
+body:not(.show-workout-details) .hero { margin-bottom:12px; padding-top:10px; padding-bottom:10px; }
+body:not(.show-workout-details) .phase { margin-bottom:12px; }
+body:not(.show-workout-details) .phase-head { margin-bottom:5px; }
+body:not(.show-workout-details) .ex-row { min-height:34px; padding:6px 10px; gap:8px; align-items:center; }
+body:not(.show-workout-details) .ex-name { font-size:13px; line-height:1.2; }
+body:not(.show-workout-details) .ex-sets { font-size:12px; padding:3px 7px; margin:0; }
+body:not(.show-workout-details) .ex-lift-wrap { padding-top:4px; padding-bottom:7px; }
+body:not(.show-workout-details) .hiit-wrap { margin-bottom:12px; }
+body:not(.show-workout-details) .wo-out-header { padding:10px 12px; }
+body:not(.show-workout-details) .wo-structure { padding-top:4px; }
+body:not(.show-workout-details) .wo-move-row { padding-top:7px; padding-bottom:7px; }
+body:not(.show-workout-details) .wo-move-reps { font-size:12px; }
+body:not(.show-workout-details) .gen-row { padding-top:8px; padding-bottom:8px; }
+.details-toggle {
+  border:1px solid var(--bord2); background:var(--bg2); color:var(--text2);
+  border-radius:7px; padding:5px 8px; font-size:11px; cursor:pointer;
+}
+.details-toggle[aria-pressed="true"] { border-color:var(--c); color:var(--c); }
+
 </style>
 </head>
 <body>
@@ -2623,6 +2664,16 @@ function deleteSessionEntry(id) {
 
 function getTotalSessions() { return getSessionLog().length; }
 
+function toggleWorkoutDetails() {
+  document.body.classList.toggle('show-workout-details');
+  const button = document.getElementById('details-toggle');
+  if (button) {
+    const open = document.body.classList.contains('show-workout-details');
+    button.setAttribute('aria-pressed', String(open));
+    button.textContent = open ? 'Hide notes' : 'Details';
+  }
+}
+
 function renderDay() {
   const d = DAYS[cur];
   const col = d.color;
@@ -2634,6 +2685,7 @@ function renderDay() {
   document.getElementById('topbar-right').innerHTML = `
     <span class="pill" style="${typeStyle}">${d.type}</span>
     <span class="pill" style="color:${col};border-color:${col}40;background:${col}12;">${d.duration}</span>
+    <button class="details-toggle" id="details-toggle" type="button" aria-pressed="${document.body.classList.contains('show-workout-details')}" onclick="toggleWorkoutDetails()">${document.body.classList.contains('show-workout-details') ? 'Hide notes' : 'Details'}</button>
   `;
 
   let html = `<div class="content">
