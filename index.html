@@ -1086,16 +1086,16 @@ body::before {
 // id must be unique, matches localStorage key
 // ─────────────────────────────────────────────────────
 const TRACKABLE = {
-  'bench-press':      { name:'Monday Bench Press',       unit:'kg',       target:'4 × 6 → add load', reps:5, increment:2.5 },
+  'bench-press':      { name:'Bench Press',              unit:'kg',       target:'3 × 8 → add load', reps:7, increment:2.5 },
   'paused-bench':     { name:'Friday Paused Bench',      unit:'kg',       target:'4 × 8 → add load', reps:7, goal1rm:100, increment:2.5 },
-  'back-squat':       { name:'Back Squat',               unit:'kg',       target:'3 × 6 @ 2 RIR', reps:5, increment:2.5 },
+  'back-squat':       { name:'Back Squat',               unit:'kg',       target:'3 × 5–8 @ 2 RIR', reps:7, increment:2.5 },
   'front-squat':      { name:'Front Squat',              unit:'kg',       target:'3 × 10 @ 2 RIR', reps:8, increment:2.5 },
-  'weighted-pullups': { name:'Weighted Pull-Ups',        unit:'kg added', target:'3 × 8', reps:7, increment:2.5 },
-  'deadlift':         { name:'Deadlift',                 unit:'kg',       target:'5 × 5 @ 2 RIR', reps:5, increment:2.5 },
+  'weighted-pullups': { name:'Weighted Pull-Ups',        unit:'kg added', target:'3 × 6–10', reps:8, increment:2.5 },
+  'deadlift':         { name:'Deadlift',                 unit:'kg',       target:'3 × 3–5 @ 2 RIR', reps:4, increment:2.5 },
   'rdl':              { name:'Romanian Deadlift',        unit:'kg',       target:'2 × 10', reps:9, increment:2.5 },
-  'ohp-wed':          { name:'Strict Overhead Press',    unit:'kg',       target:'2 × 10 assistance', reps:8, increment:2.5 },
+  'ohp-wed':          { name:'DB Shoulder Press',       unit:'kg/hand',  target:'2 × 8–12', reps:10, increment:2.5 },
   'split-squat':      { name:'Bulgarian Split Squat',    unit:'kg/side',  target:'2 × 8 / leg', reps:8, increment:2.5 },
-  'pendlay-row':      { name:'Pendlay Row',              unit:'kg',       target:'3 × 10', reps:9, increment:2.5 },
+  'pendlay-row':      { name:'One-Arm DB Row',           unit:'kg/hand',  target:'3 × 8–12/side', reps:10, increment:2.5 },
 };
 
 // Map exercise names in protocol to trackable IDs
@@ -1110,6 +1110,8 @@ const EX_NAME_TO_ID = {
   'Strict overhead press': 'ohp-wed',
   'Bulgarian split squat': 'split-squat',
   'Pendlay row or one-arm dumbbell row': 'pendlay-row',
+  'One-arm dumbbell row': 'pendlay-row',
+  'Seated dumbbell shoulder press': 'ohp-wed',
 };
 
 // Day-specific OHP disambiguation
@@ -2174,197 +2176,8 @@ function resolveHiitWeight(moveName, repsStr) {
 
 // Fallback data allows the page to remain usable when opened directly from disk.
 // The application replaces it with workout.json during startup.
-let DAYS = [
-  {
-    day:"MON", label:"Monday", icon:"🏋️", theme:"Full-Body Strength + Z2",
-    bj:"Day 1 — Strength + Cardiovascular", color:"#7EB8D4",
-    type:"GYM", intensity:"STRENGTH + Z2", duration:"60 MIN",
-    adapt:"Working sets at 80–85% 1RM on compounds. Z2 row finish replaces cycling/elliptical.",
-    phases:[
-      { name:"Warm-Up", dur:"8 min", items:[
-        {n:"Row or Ski Erg", s:"5 min", d:"Build to ~75% effort. Priming, not training."},
-        {n:"Single-Leg Balance — Eyes Closed", s:"2 min", d:"30s each side. Non-dominant first. Takes 2 minutes, costs nothing, and directly trains the physical capacity that declines fastest with age. Do this on every gym day."}
-      ]},
-      { name:"Primary Compounds", dur:"25 min", items:[
-        {n:"Back Squat", s:"4 × 5 @ 80–85%", d:"Full depth. Hard brace. 3s controlled descent. Rest 2.5–3 min."},
-        {n:"Weighted Pull-Ups", s:"4 × 6–8", d:"Belt or dumbbell. Full hang to chin over bar. 3s eccentric."},
-        {n:"Barbell Bench Press", s:"4 × 5–6 @ 80–85%", d:"Full ROM. 2s pause at chest. Controlled descent."}
-      ]},
-      { name:"Accessory + Functional", dur:"15 min", items:[
-        {n:"Heavy Kettlebell Swings", s:"4 × 15–20", d:"Heavy bell. Hip snap — not a squat. Full extension."},
-        {n:"Heavy Farmer's Carry / Suitcase Carry", s:"4 × 40m", d:"Bilateral: as heavy as posture allows. Unilateral (suitcase carry): one side only, switch halfway — adds lateral core demand the bilateral version misses. Alternate weekly. Grip strength is a robust longevity predictor."},
-        {n:"Copenhagen Plank", s:"3 × 30s/side", d:"Adductor strength — undertrained in CrossFit."}
-      ]},
-      { name:"Core + Stability", dur:"7 min", items:[
-        {n:"Single-Leg RDL", s:"3 × 8/leg", d:"Loaded — dumbbell in opposite hand. Balance + posterior chain."},
-        {n:"Pallof Press", s:"3 × 12/side", d:"Anti-rotation. 2s hold at extension."}
-      ]},
-      { name:"Z2 Row — Aerobic Finish", dur:"12 min", items:[
-        {n:"Steady State Row", s:"12 min", d:"HR 130–145 bpm. Nasal breathing. Feels very easy — that's correct."}
-      ]}
-    ],
-    purpose:"Compound lifts at working weight preserve the muscle mass and bone density that are the strongest non-cardio predictors of longevity. The Z2 finish extends weekly aerobic volume without taxing recovery."
-  },
-  {
-    day:"TUE", label:"Tuesday", icon:"⚡", theme:"HIIT — Upper Body",
-    bj:"Day 2 — High-Intensity Interval Training", color:"#D47E7E",
-    type:"GYM", intensity:"HIIT", duration:"45–50 MIN",
-    isHiit:true, hiitPool:"UPPER",
-    hiitGoal:"Sustain high-output upper body work across the full time domain. HR hits 85–95% in work periods. Push and pull both required. No primary lower body — save the legs.",
-    constraints:["Push + Pull required","No primary lower body","85–95% HR in work","Ski erg + row available"],
-    adapt:"Goal and constraints are set — format and workout are yours. Generate below or freestyle.",
-    warmup:{ name:"Warm-Up", dur:"8 min", items:[
-      {n:"Easy Ski Erg + Shoulder Mobility", s:"5 + 3 min", d:"Build HR gradually. Arm circles, wall slides. Shoulders need prep before upper HIIT."}
-    ]},
-    z2:{ name:"Z2 Aerobic Consolidation", dur:"12 min", items:[
-      {n:"Ski Erg or Row — Z2", s:"12 min", d:"HR 130–145. Johnson prescribes this after every HIIT session — a separate aerobic stimulus, not a cool-down."}
-    ]},
-    purpose:"Upper body focus preserves legs for Wednesday's strength and Saturday's long run. The Z2 block consolidates cardiovascular gains from the high-intensity effort."
-  },
-  {
-    day:"WED", label:"Wednesday", icon:"🧘", theme:"Z2 Run + Strength + Mobility",
-    bj:"Day 3 — Strength + Flexibility, Balance, Mobility", color:"#7ED4A8",
-    type:"GYM + OUTDOOR", intensity:"Z2 + STRENGTH + MOBILITY", duration:"90–110 MIN",
-    adapt:"Z2 run FIRST — always. Acute metabolic fatigue from running clears in 60–90 min; structural muscle damage from heavy deadlifts does not. On run days, reduce deadlift to 75–80% 1RM. When Saturday/Sunday falls short, this run is your Z2 insurance for the week.",
-    phases:[
-      { name:"Z2 Run — Do This First", dur:"45–60 min", items:[
-        {n:"Easy Outdoor Run", s:"45–60 min", d:"HR 130–145. Nasal breathing. Run first — always. Z2 insurance for weeks where the weekend is missed. Do not swap the order."},
-        {n:"Transition + Refuel", s:"15–20 min", d:"Walk back, eat something light, let HR settle below 100 before lifting. Acute metabolic fatigue clears here. Structural fatigue from deadlifts does not — which is why you run first."}
-      ]},
-      { name:"Dynamic Mobility Warm-Up", dur:"8 min", items:[
-        {n:"Hip CARs + Thoracic Rotations", s:"3 min", d:"Johnson-prescribed. Full hip circle. Thread the needle."},
-        {n:"Wall Slides + Leg Swings", s:"3 min", d:"Shoulder and lower body prep. Legs are already warm from the run."},
-        {n:"Single-Leg Balance — Eyes Closed", s:"2 min", d:"30s each leg, each side. Non-dominant first. Unipedal stance declines faster than any other physical capacity with age — more than grip strength or walking speed. Do this every session."}
-      ]},
-      { name:"Strength — Posterior Chain", dur:"28 min", items:[
-        {n:"Deadlift", s:"4 × 4 @ 75–80% (run day) / 85% (no run)", d:"Reduce load when the run precedes lifting. Running creates residual fatigue that impairs neuromuscular output — 85% on pre-fatigued legs is where form breaks and injuries start. 75–80% delivers the same stimulus safely. If legs feel thrashed, swap to Romanian deadlift only."},
-        {n:"Romanian Deadlift", s:"3 × 10", d:"Loaded. 3s eccentric. Hamstring and glute hypertrophy. Keep this regardless of run load."},
-        {n:"Strict Overhead Press", s:"4 × 5 @ 80%", d:"No leg drive. Full lockout overhead. Slow eccentric. Pure shoulder strength."},
-        {n:"Ring Rows or Cable Face Pull", s:"4 × 12–15", d:"External rotation emphasis. Rotator cuff health. Non-negotiable."}
-      ]},
-      { name:"Yoga — Balance + Flexibility", dur:"15 min", items:[
-        {n:"Cat-Cow + Cobra", s:"3 min", d:"Johnson-prescribed. Spinal mobilisation."},
-        {n:"Pigeon Pose", s:"4 min", d:"2 min each side. CrossFit athletes need this more than most."},
-        {n:"Tree Pose + Single-Leg Balance", s:"3 min", d:"Johnson-prescribed. 45s each side. Progress to eyes closed."},
-        {n:"Cobbler's Pose + Supine Twist", s:"5 min", d:"Johnson-prescribed. Extended holds. Let gravity work."}
-      ]},
-      { name:"Static Stretch Cool-Down", dur:"10 min", items:[
-        {n:"Hamstring, Quad, Hip Flexor, Calf", s:"10 min", d:"45-second holds. After a run and a lift, connective tissue needs this. Do not skip."}
-      ]}
-    ],
-    purpose:"Wednesday is the week's structural anchor and Z2 insurance. The run-first sequence is deliberate — running before strength is the only safe order when combining both in one session. The deadlift load reduction on run days is not optional, it is injury prevention. The balance work is a direct longevity investment: unipedal stance time is the physical capacity that declines fastest with age."
-  },
-  {
-    day:"THU", label:"Thursday", icon:"🔥", theme:"Norwegian 4×4 — VO2 Max",
-    bj:"Day 4 — Interval-Based Cardiovascular", color:"#D4B96A",
-    type:"GYM + OUTDOOR", intensity:"HIIT", duration:"40–45 MIN",
-    isHiit:false, hiitPool:"LOWER",
-    hiitGoal:"High-output lower body and posterior chain under cardiovascular load. HR 85–95% in work periods. Norwegian 4×4 on ski erg or rower is always available as the pure VO2 max option. Check HRV before choosing format — if Wednesday run + deadlift left residual fatigue, lean toward Norwegian 4×4 on ski erg (upper-dominant) rather than a squat/hinge-heavy session.",
-    constraints:["Squat or hinge required","Ski erg / row as anchor","85–95% HR in work","Norwegian 4×4 always an option","If HRV low → ski erg 4×4 over squat HIIT"],
-    adapt:"The fixed Thursday session: choose a run, ski erg, or rower for 4×4 VO2-max work without adding a heavy squat or hinge day after Wednesday.",
-    phases:[
-      { name:"Warm-Up", dur:"8 min", items:[
-        {n:"Easy Run, Ski Erg, or Row + Hip Mobility", s:"5 + 3 min", d:"Build HR to 70%, then complete hip CARs and leg swings."}
-      ]},
-      { name:"Norwegian 4×4", dur:"28 min", items:[
-        {n:"Run, Ski Erg, or Row — Work", s:"4 × 4 min @ 85–95% HR", d:"Sustainable hard effort. Keep interval 4 at the same pace as interval 1."},
-        {n:"Active Recovery", s:"3 min easy between intervals", d:"Easy walk, jog, row, or ski until HR returns to 60–70%."}
-      ]},
-      { name:"Cool-Down", dur:"5 min", items:[
-        {n:"Easy Walk, Row, or Ski — Z1", s:"5 min", d:"HR below 120 before stopping."}
-      ]}
-    ],
-    warmup:{ name:"Warm-Up", dur:"8 min", items:[
-      {n:"Ski Erg Build-Up + Hip Mobility", s:"5 + 3 min", d:"Build HR to 70% on ski erg. Hip CARs and leg swings after."}
-    ]},
-    z2:{ name:"Cool-Down", dur:"5 min", items:[
-      {n:"Easy Row — Z1", s:"5 min", d:"HR below 120 before stopping. Active lactate clearance."}
-    ]},
-    purpose:"Thursday is your primary VO2 max driver when the Norwegian 4×4 is selected. On weeks with a heavy Wednesday (run + deadlift), favour the ski erg-based 4×4 over squat/hinge HIIT — it delivers the same VO2 max stimulus with far less lower body fatigue load going into Friday and Saturday."
-  },
-  {
-    day:"FRI", label:"Friday", icon:"💪", theme:"Full-Body Strength",
-    bj:"Day 5 — Full-Body Resistance Training", color:"#C49BD4",
-    type:"GYM", intensity:"STRENGTH", duration:"55 MIN",
-    adapt:"Unilateral emphasis — Bulgarian split squat and single-leg RDL replace lunges and step-ups.",
-    phases:[
-      { name:"Warm-Up", dur:"7 min", items:[
-        {n:"Single-Leg Balance — Eyes Closed", s:"2 min", d:"30s each side. Non-dominant first. End-of-week check — if you can't hold 30s, your fatigue is high. A useful daily readiness signal."}
-      ]},
-      { name:"Strength — Unilateral + Overhead", dur:"30 min", items:[
-        {n:"Bulgarian Split Squat", s:"4 × 8/leg @ heavy", d:"Rear foot elevated. Full depth. Builds knee and hip stability."},
-        {n:"Strict Overhead Press", s:"4 × 5–6 @ 80%", d:"No leg drive. Full lockout. Slow eccentric. Vertical push pattern."},
-        {n:"Pendlay Row", s:"4 × 6–8", d:"Heavy horizontal pull. Explosive concentric, controlled lowering."},
-        {n:"Single-Leg RDL", s:"3 × 8/leg", d:"Loaded. Balance + posterior chain + hip stability."}
-      ]},
-      { name:"Accessory + Core", dur:"12 min", items:[
-        {n:"Side Plank with Hip Abduction", s:"3 × 30s/side", d:"Lift top leg during hold. Glute med + oblique together."},
-        {n:"Hanging Leg Raise / Toes-to-Bar", s:"3 × 12–15", d:"Hip flexor and core strength at end range."},
-        {n:"Cable Face Pull", s:"3 × 15", d:"External rotation every week. Shoulder longevity insurance."}
-      ]},
-      { name:"Z2 Row — Aerobic Close", dur:"8 min", items:[
-        {n:"Steady State Row", s:"8 min", d:"HR 130–145. Short enough not to accumulate fatigue before Saturday."}
-      ]}
-    ],
-    purpose:"Unilateral movements address asymmetries that accumulate in bilateral-dominant CrossFit training — a direct longevity investment for joint health."
-  },
-  {
-    day:"SAT", label:"Saturday", icon:"🏃", theme:"Long Run — Z2",
-    bj:"Extended Moderate Intensity Cardio", color:"#7ED490",
-    type:"OUTDOOR", intensity:"Z2 LONG", duration:"75–100 MIN",
-    adapt:"Duration extended from beginner protocol. 75–100 min is the effective range for cardiac remodelling and HRV adaptation at your fitness level. On weeks where this session is missed, Wednesday's Z2 run covers the aerobic floor — but this session is the primary driver. Prioritise it.",
-    phases:[
-      { name:"Warm-Up", dur:"8 min", items:[
-        {n:"Walk → Easy Jog Progression", s:"8 min", d:"Don't skip it because you're fit. Cold connective tissue is cold regardless of VO2 max."}
-      ]},
-      { name:"Long Z2 Run", dur:"65–90 min", items:[
-        {n:"Conversational Pace Run", s:"65–90 min", d:"HR 130–145 bpm. Will feel very easy — that's the point. Use HR monitor, not feel, to stay honest."}
-      ]},
-      { name:"Cool-Down", dur:"10 min", items:[
-        {n:"Static Stretch — Full Lower Body", s:"10 min", d:"45s holds. Three strength sessions and a HIIT day behind you — your legs have earned this."}
-      ]}
-    ],
-    purpose:"Long Z2 runs are the primary driver of HRV improvement and RHR maintenance. Consistency of long aerobic work is what holds elite metrics in place."
-  },
-  {
-    day:"SUN", label:"Sunday", icon:"🚴", theme:"Long Bike + Recovery",
-    bj:"Day 7 — Active Recovery", color:"#D4956A",
-    type:"OUTDOOR", intensity:"Z2 + RECOVERY", duration:"100–130 MIN",
-    adapt:"Duration extended for advanced fitness. Johnson's yoga and 15–20 min mindfulness kept exactly as prescribed — moved post-ride for maximum vagal tone effect.",
-    phases:[
-      { name:"Long Z2 Bike Ride", dur:"100–120 min", items:[
-        {n:"Easy Spin Warm-Up", s:"10 min", d:"Z1. HR below 115. Let the legs settle after Saturday."},
-        {n:"Z2 Steady Ride", s:"90–110 min", d:"HR 120–138. Cycling HR runs 5–10 bpm lower than running — adjust accordingly."}
-      ]},
-      { name:"Yoga + Full-Body Stretch", dur:"20–25 min", items:[
-        {n:"Cat-Cow + Child's Pose", s:"4 min", d:"Spinal decompression after cycling position."},
-        {n:"Pigeon Pose", s:"6 min", d:"3 min each side. Non-negotiable after a week of squats, runs, and cycling."},
-        {n:"Supine Twist + Legs Up Wall", s:"5 min", d:"Full-body reset. Passive parasympathetic activation."},
-        {n:"Cobbler's Pose + Hip Flexor Stretch", s:"5 min", d:"Extended holds. Gravity does the work."}
-      ]},
-      { name:"Mindfulness + Breathing", dur:"15–20 min", items:[
-        {n:"Box Breathing or 4-7-8", s:"15–20 min", d:"Post-ride, lying down. 4 in, 4 hold, 4 out, 4 hold. Primary HRV intervention of the week — directly stimulates vagal tone."}
-      ]}
-    ],
-    purpose:"At advanced training loads, Sunday quality determines Monday quality. The mindfulness block is the biological mechanism through which HRV resets between training weeks."
-  }
-];
-
-let NOTES = [
-  {title:"You're Already Ahead", body:"RHR of 42–45 puts you in the top 2% of cardiovascular fitness. The goal is to maintain and extend these adaptations while adding the longevity-specific work Johnson targets."},
-  {title:"Loads Are Working Sets", body:"All strength prescriptions are working weight. After 3–4 years of CrossFit you know your numbers. Push compounds to 80–85% 1RM. Rep ranges are minimums, not targets."},
-  {title:"HIIT Is Your Sandbox", body:"Tuesday and Thursday give you a goal, time domain, and focus. Fill it with whatever format fits the stimulus. Use the generator or freestyle — just hit the constraints."},
-  {title:"Z2 Must Stay Z2", body:"Your CrossFit background will make Z2 feel too easy. That's correct. Nasal breathing, conversational pace, HR under 145. Pushing harder turns aerobic work into junk volume."},
-  {title:"Zone 2 Target: 3–4 Hours/Week", body:"Research from San-Millán and others identifies 3–4 hours of Z2 per week as the effective dose for mitochondrial adaptation, capillary density, and metabolic health. You hit this on full weekends. Wednesday's Z2 run is the insurance when you don't. On partial weeks with no Wednesday run, you're around 32 min of Z2 — insufficient."},
-  {title:"Wednesday: Run First, Always", body:"When combining a Z2 run and strength in one session, the run must come first. Running creates acute metabolic fatigue that clears in 60–90 min. Heavy deadlifts create structural muscle damage that doesn't clear for 24–48 hours and impairs both running mechanics and injury risk. Reduce deadlift to 75–80% on run days."},
-  {title:"Thursday Fatigue Risk", body:"Tue HIIT → Wed deadlift + run → Thu lower HIIT is three consecutive hard sessions. Check HRV Thursday morning. If it's down, run Norwegian 4×4 on the ski erg instead of squat/hinge HIIT. Same VO2 max stimulus, far less lower body load going into Friday and Saturday's long run."},
-  {title:"Balance — The Most Underrated Longevity Metric", body:"A 2024 Mayo Clinic study found unipedal stance time declines faster with age than grip strength, knee strength, or walking speed. A separate British Journal of Sports Medicine study linked failing the 10-second one-leg balance test to higher all-cause mortality. Two minutes of eyes-closed single-leg holds per session costs nothing. Do it every gym day."},
-  {title:"Mobility Matters More Now", body:"High-output athletes accumulate more movement debt. Wednesday's full yoga and mobility block is the non-negotiable injury prevention layer. Don't shorten it."},
-  {title:"Strength Plateau Strategy", body:"Periodise in 4-week blocks: volume → intensity → deload. At advanced level, adding 5 kg over 3 months is real progress. Track lifts weekly."},
-  {title:"HRV Target — 12 Months", body:"Current: 102 ms. Target: 115–125 ms. Track as 7-day rolling average. Week-to-week swings of ±15 ms are normal — trend is what matters. Sunday breathing is your primary weekly lever."},
-  {title:"VO2 Max Tracking", body:"Use Garmin trend data month-over-month — not individual readings. Thursday's Norwegian 4×4 is your primary VO2 max driver. Expect +2–4 ml/kg/min per 3 months at your level. Note: at your fitness baseline, VO2 max gains come primarily from HIIT intensity, not additional Z2 volume."},
-  {title:"RHR Expectation", body:"At 42–45 bpm you're already elite. Realistic 12-month target is holding 40–44 — maintenance is the goal, not improvement. A drop to 38–40 is a strong result."}
-];
+let DAYS = [{"day":"MON","label":"Monday","icon":"01","theme":"Full-Body Strength A","color":"#F2C14E","type":"STRENGTH","duration":"55–65 MIN","intent":"Balanced squat, press, pull and hypertrophy. No bench-press specialization; progress each muscle group while preserving Tuesday interval quality.","phases":[{"name":"Movement prep EMOM","dur":"6 min · 2 cycles","items":[{"n":"Minute 1","s":"40 sec","d":"8 air squats + 5 light goblet squats; move smoothly."},{"n":"Minute 2","s":"40 sec","d":"8 incline push-ups or scapular push-ups + 8 light DB rows."},{"n":"Minute 3","s":"40 sec","d":"8 hip hinges + 20-second plank; rest remaining time."}]},{"name":"Barbell ramp-up","dur":"As needed","items":[{"n":"Squat and bench ramp-up","s":"3–5 lighter sets","d":"Specific preparation; the EMOM is not a substitute for ascending barbell loads."}]},{"name":"Main strength","dur":"~30 min","items":[{"n":"Back squat","s":"3 × 5–8","d":"2 RIR; 2–3 min rest. If Tuesday rowing quality suffers, use 2 work sets."},{"n":"Bench press","s":"3 × 6–8","d":"1–2 RIR; 2–3 min rest. Squat and bench may alternate priority."},{"n":"Weighted pull-ups","s":"3 × 6–10","d":"1–2 RIR; 2 min rest; bodyweight is valid."}]},{"name":"Posterior chain + hypertrophy","dur":"~15 min","items":[{"n":"Romanian deadlift","s":"2 × 8–10","d":"2 RIR; control eccentric; use barbell or dumbbells."},{"n":"Dumbbell lateral raise","s":"3 × 12–20","d":"Near but not to technical failure."},{"n":"Dumbbell curl + triceps extension","s":"2 × 10–15 each","d":"Superset; 1–2 RIR; shorten if time is limited."}]}],"cue":"Log working loads and reps. Tuesday's repeatable interval watts matter more than squeezing in a fourth squat set."},{"day":"TUE","label":"Tuesday","icon":"02","theme":"Norwegian 4 × 4 · VO₂ Max","color":"#EF5D60","type":"PRIMARY HIIT","duration":"38–42 MIN","generatorPool":"TUESDAY_VO2","generatorLabel":"Generate alternative VO₂ max intervals","generatorBadge":"4 × 4 REPLACEMENT","generatorHint":"Alternative replaces the entire 4 × 4 workout","generatorGoal":"Keep Norwegian 4 × 4 as default. Select one machine-based interval alternative only for variety; do not stack it with 4 × 4.","generatorConstraints":["RowErg or SkiErg","Repeatable output","No loaded lifting","No failure"],"intent":"Your freshest hard cardiovascular session. Build VO₂ max through controlled high output, not all-out sprints.","phases":[{"name":"Progressive erg warm-up","dur":"8–10 min","items":[{"n":"Easy-to-moderate RowErg","s":"8–10 min","d":"Build gradually; finish with 2–3 controlled 10-second accelerations."}]},{"name":"Norwegian 4 × 4","dur":"25 min","items":[{"n":"Hard rowing intervals","s":"4 × 4 min","d":"RPE 8–9. Aim for roughly 85–95% max HR toward the latter part of intervals; preserve watts across all four."},{"n":"Very easy rowing","s":"3 min × 3","d":"Active recovery between hard intervals; do not sprint the final repetition."}]},{"name":"Cooldown","dur":"5 min","items":[{"n":"Easy RowErg","s":"5 min","d":"Let breathing normalize."}]}],"cue":"Progress average power at a comparable perceived effort; HR alone lags and is affected by sleep, heat and fatigue."},{"day":"WED","label":"Wednesday","icon":"03","theme":"Full-Body Strength B","color":"#F08A5D","type":"STRENGTH","duration":"50–60 MIN","intent":"Hinge-led strength and upper-body hypertrophy with reduced deadlift fatigue after Tuesday intervals. No cable or leg-curl machines required.","phases":[{"name":"Hinge + upper-body EMOM","dur":"6 min · 2 cycles","items":[{"n":"Minute 1","s":"40 sec","d":"10 glute bridges + 6 unloaded hip hinges."},{"n":"Minute 2","s":"40 sec","d":"8 light dumbbell rows + 8 scapular push-ups."},{"n":"Minute 3","s":"40 sec","d":"6 alternating reverse lunges + 8 arm circles per side."}]},{"name":"Deadlift ramp-up","dur":"As needed","items":[{"n":"Barbell deadlift warm-ups","s":"3–5 sets","d":"Increase gradually without fatigue."}]},{"name":"Primary strength","dur":"~25 min","items":[{"n":"Deadlift","s":"3 × 3–5","d":"~2 RIR; 2–3 min rest. Reduce to 2 sets if Tuesday leaves substantial fatigue."},{"n":"Incline dumbbell press","s":"3 × 8–12","d":"1–2 RIR; stable bench and controlled eccentric."},{"n":"One-arm dumbbell row","s":"3 × 8–12 / side","d":"1–2 RIR; support free hand on bench."}]},{"name":"Single-leg + shoulder + hamstrings","dur":"~17 min","items":[{"n":"Bulgarian split squat","s":"2 × 8–10 / leg","d":"2 RIR; use dumbbells."},{"n":"Seated dumbbell shoulder press","s":"2 × 8–12","d":"1–2 RIR; do not grind."},{"n":"Sliding hamstring curl","s":"2 × 8–15","d":"Towels/sliders on a safe smooth surface; if impossible, use assisted Nordic eccentrics with securely anchored ankles. RDLs are a hip-hinge fallback, not an identical knee-flexion replacement."},{"n":"Standing calf raise","s":"Optional 2 × 12–20","d":"Dumbbells in hands; controlled full range."}]}],"cue":"Maintain progression without reviving the old 5 × 5 deadlift fatigue burden."},{"day":"THU","label":"Thursday","icon":"04","theme":"Long Zone 2 · Aerobic Base","color":"#6EC5B8","type":"ZONE 2","duration":"50–65 MIN","intent":"Long, genuinely easy aerobic training before Friday's WOD. Use RowErg, SkiErg or a comfortable combination. Avoid turning this into tempo work.","phases":[{"name":"Easy build","dur":"5 min","items":[{"n":"Light RowErg or SkiErg","s":"5 min","d":"Settle into smooth breathing."}]},{"name":"Steady aerobic base","dur":"40–55 min","items":[{"n":"Continuous RowErg / SkiErg","s":"40–55 min","d":"Talk-test intensity: comfortable full sentences, RPE 3–4/10. For mixed machines, transitions are easy; do not race."}]},{"name":"Easy finish","dur":"5 min","items":[{"n":"Low-intensity cooldown","s":"5 min","d":"Finish recovered and ready for Friday."}]}],"cue":"Start at 50 min if needed; build toward 60–65. Physiological Zone 2 is individual—not a mandatory fixed Garmin HR number."},{"day":"FRI","label":"Friday","icon":"05","theme":"Strength Primer + CrossFit WOD","color":"#A78BFA","type":"WOD / STRENGTH","duration":"40–60 MIN","intent":"The week's flexible, enjoyable high-intensity session. Pick Solo WOD or Team WOD below; optional strength work complements the WOD rather than duplicates it.","phases":[{"name":"Movement-specific warm-up EMOM","dur":"6 min · 2 cycles","items":[{"n":"Minute 1","s":"40 sec","d":"8 light kettlebell deadlifts or swings, chosen for today's WOD."},{"n":"Minute 2","s":"40 sec","d":"6 reverse lunges + 6 bodyweight squats."},{"n":"Minute 3","s":"40 sec","d":"5 light dumbbell presses + 5 controlled walkouts; adjust to WOD."}]},{"name":"Optional strength / hypertrophy","dur":"12–18 min","items":[{"n":"Incline dumbbell press + one-arm DB row","s":"2–3 × 8–12 each","d":"Default upper-body superset, 1–2 RIR. If WOD is pressing/pulling-heavy, swap for an untrained accessory or omit."},{"n":"Dumbbell lateral raise","s":"2 × 12–20","d":"Optional after superset; skip if overhead-heavy WOD."},{"n":"Alternative: front squat + chin-up","s":"2–3 × 5–8 each","d":"Only when the upcoming WOD is NOT squat, jump or pull-dominant; keep 2–3 RIR."}]},{"name":"Conditioning — choose a WOD","dur":"15–25 min typically","items":[{"n":"Solo WOD or Team WOD","s":"Generate below","d":"Pick exactly one. For time workouts use a cap; shared partner reps are specified in the workout. Team WOD can replace the strength block."}]}],"wodPools":["FRIDAY_SOLO","FRIDAY_TEAM"],"cue":"Friday may be hard, but not every WOD needs to be maximal. If the team WOD is longer or very demanding, skip accessory lifting; protect Saturday's easy run."},{"day":"SAT","label":"Saturday","icon":"06","theme":"Long Easy Run","color":"#68A4FF","type":"ZONE 2 / RUN","duration":"60–75 MIN","intent":"Comfortable outdoor run, never a compulsory interval day; shorten if Friday included heavy jumping or squatting.","phases":[{"name":"Easy start","dur":"10 min","items":[{"n":"Slow conversational run","s":"10 min","d":"Allow your legs to loosen."}]},{"name":"Steady aerobic run","dur":"50–65 min","items":[{"n":"Conversational run","s":"50–65 min","d":"RPE 3–4/10; full-sentence talk test; optional walk breaks."}]},{"name":"Transition","dur":"2–5 min","items":[{"n":"Easy walk","s":"2–5 min","d":"Relax and recover."}]}],"cue":"Make Friday's enjoyment sustainable. No need for strides after a demanding team WOD."},{"day":"SUN","label":"Sunday","icon":"07","theme":"Rest + Readiness","color":"#B8B3A7","type":"RECOVERY","duration":"NO TARGET","intent":"An optional walk or gentle mobility session; let fatigue dissipate before Monday.","phases":[{"name":"Optional recovery","dur":"As useful","items":[{"n":"Easy walk","s":"20–40 min","d":"Optional and genuinely easy."},{"n":"Mobility or balance","s":"5–15 min","d":"Choose comfortable ranges; eyes-closed single-leg balance near support if desired."}]}],"cue":"Recovery is a condition for improving strength and aerobic fitness, not an additional workout quota."}];
+let NOTES = [{"title":"Training intent","body":"Build cardiovascular fitness, aerobic endurance, general strength and muscle mass. Tuesday is the measurable hard interval day; Friday is flexible CrossFit and optional accessories. Avoid treating HRV or VO₂ max as a sole longevity score."},{"title":"Aerobic minimum","body":"Thursday 50–65 min and Saturday 60–75 min deliver approximately 110–140 min of dedicated easy aerobic exercise. Tuesday 4 × 4 and Friday WOD add vigorous work but not all WOD minutes are aerobic. Add optional 10–30 min easy walking/rowing as recovery permits; 150 min Zone 2 is not a biological threshold."},{"title":"Intensity","body":"Zone 2 should remain conversational (roughly RPE 3–4/10); don't use an unverified fixed heart-rate cutoff. Tuesday 4 × 4 is RPE 8–9 and repeatable watts. Friday may be hard but needn't be maximal every week."},{"title":"EMOM warm-ups","body":"Strength days and Friday use six-minute movement-specific EMOMs, kept easy. Perform separate ascending barbell warm-up sets before working loads. Tuesday needs a progressive aerobic warm-up."},{"title":"Progressive overload","body":"For primary strength exercises use 1–3 repetitions in reserve. Add reps within prescribed ranges, then increase load by the smallest practical increment when all sets are clean. No compulsory paused-bench 100 kg specialization."},{"title":"Hypertrophy plateau","body":"Track working sets, loads/reps, weekly average body weight and optional circumference/photos for 8–12 weeks. Adequate protein alone does not ensure mass gain; energy availability and recovery matter. Add sets only if performance and recovery allow."},{"title":"Friday WOD rules","body":"Use one Solo or Team WOD. The optional 12–18 min accessory block is not compulsory; skip or change it when movements overlap the WOD. Scale reps, loads and time caps; protect Saturday's easy run."},{"title":"Equipment","body":"Available: RowErg, SkiErg, racks, pull-up/dip bars, barbells, dumbbells, kettlebells, bench, box and mats. No cable station, leg-curl machine, wall balls, ropes, rings or treadmill assumed."},{"title":"Fatigue adjustment","body":"If Tuesday intervals decline after Monday squats, reduce Monday squats to 2 sets. If Wednesday deadlift warm-ups feel unusually heavy, do only 2 working sets. After a very demanding Friday WOD, shorten Saturday's run or walk instead."},{"title":"Nutrition and sleep","body":"Maintain adequate overall calories, protein and carbohydrate availability for strength and interval training. Prioritize consistent sleep and recovery, not supplements or HRV chasing."}];
 
 // ─────────────────────────────────────────────────────
 // STATE
@@ -2420,7 +2233,7 @@ function hiitBlockHtml(d, idx) {
   const col = d.color;
   const id = d.generatorPool.toLowerCase();
   const isTuesday = d.day === 'TUE';
-  const dur = isTuesday ? '25–35 min total' : 'Replaces default';
+  const dur = isTuesday ? 'Replaces 4 × 4' : 'Replaces default';
   const chips = d.generatorConstraints.map(c =>
     `<span class="constraint-chip" style="color:${col};border-color:${col}40;background:${col}10;">${c}</span>`
   ).join('');
@@ -2429,13 +2242,13 @@ function hiitBlockHtml(d, idx) {
     <div class="hiit-wrap">
       <div class="phase-head">
         <div class="phase-num" style="background:${col};">${idx}</div>
-        <div class="phase-title">${isTuesday ? 'Optional short HIIT' : 'Alternative primary HIIT'}</div>
+        <div class="phase-title">${isTuesday ? 'Alternative VO₂ max session' : 'Alternative primary HIIT'}</div>
         <div class="phase-dur">${dur}</div>
       </div>
       <div class="hiit-card" style="border-color:${col}35;">
         <div class="hiit-card-head" style="background:${col}10;">
           <span class="hiit-badge" style="background:${col}22;color:${col};">${d.generatorBadge}</span>
-          <span class="hiit-card-name">${isTuesday ? 'Short machine session' : 'Variety-week replacement'}</span>
+          <span class="hiit-card-name">${isTuesday ? 'VO₂ max variety session' : 'Variety-week replacement'}</span>
         </div>
         <div class="hiit-goal-block">
           <div class="hiit-goal-lbl">Replacement rule</div>
@@ -2450,11 +2263,36 @@ function hiitBlockHtml(d, idx) {
           <span class="gen-hint">${d.generatorHint}</span>
         </div>
         <div id="wo-out-${id}">
-          <div class="wo-empty">${isTuesday ? 'Zone 2 remains today’s default.' : 'Norwegian 4 × 4 remains today’s default.'}</div>
+          <div class="wo-empty">Norwegian 4 × 4 remains today’s default.</div>
         </div>
       </div>
     </div>
   `;
+}
+
+
+function fridayWodHtml(d, idx) {
+  const color = d.color;
+  return `
+    <div class="hiit-wrap">
+      <div class="phase-head">
+        <div class="phase-num" style="background:${color};">${idx}</div>
+        <div class="phase-title">Friday WOD generator</div>
+        <div class="phase-dur">Solo or team</div>
+      </div>
+      <div class="hiit-card" style="border-color:${color}35;">
+        <div class="hiit-goal-block">
+          <div class="hiit-goal-lbl">Choose exactly one</div>
+          <div class="hiit-goal-txt">Select from equipment-compatible workouts, including scaled historical benchmarks. Optional accessories above should complement the chosen WOD, not duplicate its volume.</div>
+        </div>
+        <div class="gen-row" style="flex-wrap:wrap;">
+          <button class="gen-btn" id="gbtn-friday-solo" style="background:${color};color:#141414;" onclick="genWorkout('friday-solo','FRIDAY_SOLO','${color}')"><span id="gicon-friday-solo">⚡</span> Solo WOD</button>
+          <button class="gen-btn" id="gbtn-friday-team" style="background:transparent;color:${color};border:1px solid ${color};" onclick="genWorkout('friday-team','FRIDAY_TEAM','${color}')"><span id="gicon-friday-team">⚡</span> Team WOD</button>
+        </div>
+        <div id="wo-out-friday-solo"><div class="wo-empty">Generate a solo workout.</div></div>
+        <div id="wo-out-friday-team"><div class="wo-empty">Or generate a partner workout.</div></div>
+      </div>
+    </div>`;
 }
 
 function genWorkout(id, poolName, color) {
@@ -2466,6 +2304,12 @@ function genWorkout(id, poolName, color) {
   icon.classList.add('spinning');
 
   const w = pick(pool);
+  // Show exactly one Friday workout at a time.
+  if (id === 'friday-solo' || id === 'friday-team') {
+    const other = id === 'friday-solo' ? 'friday-team' : 'friday-solo';
+    const otherOutput = document.getElementById('wo-out-' + other);
+    if (otherOutput) otherOutput.innerHTML = '';
+  }
   const tagsHtml = w.tags.map(t =>
     `<span class="wo-tag" style="color:${color};border-color:${color}40;background:${color}12;">${t}</span>`
   ).join('');
@@ -2807,17 +2651,16 @@ function renderDay() {
     </div>`;
 
   if (d.generatorPool) {
-    const defaultLabel = d.day === 'TUE' ? 'ZONE 2' : 'NORWEGIAN 4 × 4';
-    const alternativeLabel = d.day === 'TUE' ? 'SHORT HIIT' : 'GENERATED PRIMARY HIIT';
     html += `<div class="choice-strip" style="--choice:${col}">
-      <div class="choice-option active"><span>DEFAULT</span>${defaultLabel}</div>
+      <div class="choice-option active"><span>DEFAULT</span>NORWEGIAN 4 × 4</div>
       <div class="choice-or">OR</div>
-      <div class="choice-option"><span>REPLACEMENT</span>${alternativeLabel}</div>
+      <div class="choice-option"><span>REPLACEMENT</span>ALTERNATIVE VO₂ MAX</div>
     </div>`;
   }
 
   d.phases.forEach((ph, i) => { html += phaseHtml(ph, i + 1, col, cur); });
   if (d.generatorPool) html += hiitBlockHtml(d, d.phases.length + 1);
+  if (d.wodPools) html += fridayWodHtml(d, d.phases.length + 1);
 
   html += `
     <div class="purpose" style="background:${col}0C;border-color:${col}28;">
