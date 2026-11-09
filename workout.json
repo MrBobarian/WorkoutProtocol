@@ -27,17 +27,20 @@
             {
               "n": "Minute 1",
               "s": "40 sec",
-              "d": "8 air squats + 5 light goblet squats; move smoothly."
+              "d": "8 air squats + 5 light goblet squats; move smoothly.",
+              "compactCue": "8 air squats + 5 light goblet squats"
             },
             {
               "n": "Minute 2",
               "s": "40 sec",
-              "d": "8 incline push-ups or scapular push-ups + 8 light DB rows."
+              "d": "8 incline push-ups or scapular push-ups + 8 light DB rows.",
+              "compactCue": "8 incline push-ups or scapular push-ups + 8 light DB rows"
             },
             {
               "n": "Minute 3",
               "s": "40 sec",
-              "d": "8 hip hinges + 20-second plank; rest remaining time."
+              "d": "8 hip hinges + 20-second plank; rest remaining time.",
+              "compactCue": "8 hip hinges + 20-sec plank"
             }
           ]
         },
@@ -59,17 +62,20 @@
             {
               "n": "Back squat",
               "s": "3 × 5–8",
-              "d": "2 RIR; 2–3 min rest. If Tuesday rowing quality suffers, use 2 work sets."
+              "d": "2 RIR; 2–3 min rest. If Tuesday rowing quality suffers, use 2 work sets.",
+              "compactCue": "2 RIR · 2–3 min rest"
             },
             {
               "n": "Bench press",
               "s": "3 × 6–8",
-              "d": "1–2 RIR; 2–3 min rest. Squat and bench may alternate priority."
+              "d": "1–2 RIR; 2–3 min rest. Squat and bench may alternate priority.",
+              "compactCue": "1–2 RIR · 2–3 min rest"
             },
             {
               "n": "Weighted pull-ups",
               "s": "3 × 6–10",
-              "d": "1–2 RIR; 2 min rest; bodyweight is valid."
+              "d": "1–2 RIR; 2 min rest; bodyweight is valid.",
+              "compactCue": "Bodyweight OK · 1–2 RIR · 2 min rest"
             }
           ]
         },
@@ -80,7 +86,8 @@
             {
               "n": "Romanian deadlift",
               "s": "2 × 8–10",
-              "d": "2 RIR; control eccentric; use barbell or dumbbells."
+              "d": "2 RIR; control eccentric; use barbell or dumbbells.",
+              "compactCue": "Barbell or DBs · control the lowering · 2 RIR"
             },
             {
               "n": "Dumbbell lateral raise",
@@ -90,7 +97,8 @@
             {
               "n": "Dumbbell curl + triceps extension",
               "s": "2 × 10–15 each",
-              "d": "Superset; 1–2 RIR; shorten if time is limited."
+              "d": "Superset; 1–2 RIR; shorten if time is limited.",
+              "compactCue": "Superset · 1–2 RIR"
             }
           ]
         }
@@ -125,7 +133,8 @@
             {
               "n": "Easy-to-moderate RowErg",
               "s": "8–10 min",
-              "d": "Build gradually; finish with 2–3 controlled 10-second accelerations."
+              "d": "Build gradually; finish with 2–3 controlled 10-second accelerations.",
+              "compactCue": "Finish with 2–3 controlled 10-sec accelerations"
             }
           ]
         },
@@ -136,12 +145,14 @@
             {
               "n": "Hard rowing intervals",
               "s": "4 × 4 min",
-              "d": "RPE 8–9. Aim for roughly 85–95% max HR toward the latter part of intervals; preserve watts across all four."
+              "d": "RPE 8–9. Aim for roughly 85–95% max HR toward the latter part of intervals; preserve watts across all four.",
+              "compactCue": "RPE 8–9 · 85–95% max HR late in each interval"
             },
             {
               "n": "Very easy rowing",
               "s": "3 min × 3",
-              "d": "Active recovery between hard intervals; do not sprint the final repetition."
+              "d": "Active recovery between hard intervals; do not sprint the final repetition.",
+              "compactCue": "Active recovery between hard intervals"
             }
           ]
         },
@@ -176,17 +187,20 @@
             {
               "n": "Minute 1",
               "s": "40 sec",
-              "d": "10 glute bridges + 6 unloaded hip hinges."
+              "d": "10 glute bridges + 6 unloaded hip hinges.",
+              "compactCue": "10 glute bridges + 6 unloaded hip hinges"
             },
             {
               "n": "Minute 2",
               "s": "40 sec",
-              "d": "8 light dumbbell rows + 8 scapular push-ups."
+              "d": "8 light dumbbell rows + 8 scapular push-ups.",
+              "compactCue": "8 light DB rows + 8 scapular push-ups"
             },
             {
               "n": "Minute 3",
               "s": "40 sec",
-              "d": "6 alternating reverse lunges + 8 arm circles per side."
+              "d": "6 alternating reverse lunges + 8 arm circles per side.",
+              "compactCue": "6 alternating reverse lunges + 8 arm circles per side"
             }
           ]
         },
@@ -208,17 +222,20 @@
             {
               "n": "Deadlift",
               "s": "3 × 3–5",
-              "d": "~2 RIR; 2–3 min rest. Reduce to 2 sets if Tuesday leaves substantial fatigue."
+              "d": "~2 RIR; 2–3 min rest. Reduce to 2 sets if Tuesday leaves substantial fatigue.",
+              "compactCue": "~2 RIR · 2–3 min rest"
             },
             {
               "n": "Incline dumbbell press",
               "s": "3 × 8–12",
-              "d": "1–2 RIR; stable bench and controlled eccentric."
+              "d": "1–2 RIR; stable bench and controlled eccentric.",
+              "compactCue": "Control the lowering · 1–2 RIR"
             },
             {
               "n": "One-arm dumbbell row",
               "s": "3 × 8–12 / side",
-              "d": "1–2 RIR; support free hand on bench."
+              "d": "1–2 RIR; support free hand on bench.",
+              "compactCue": "Support free hand on bench · 1–2 RIR"
             }
           ]
         },
@@ -229,22 +246,26 @@
             {
               "n": "Bulgarian split squat",
               "s": "2 × 8–10 / leg",
-              "d": "2 RIR; use dumbbells."
+              "d": "2 RIR; use dumbbells.",
+              "compactCue": "Dumbbells · 2 RIR"
             },
             {
               "n": "Seated dumbbell shoulder press",
               "s": "2 × 8–12",
-              "d": "1–2 RIR; do not grind."
+              "d": "1–2 RIR; do not grind.",
+              "compactCue": "1–2 RIR"
             },
             {
               "n": "Sliding hamstring curl",
               "s": "2 × 8–15",
-              "d": "Towels/sliders on a safe smooth surface; if impossible, use assisted Nordic eccentrics with securely anchored ankles. RDLs are a hip-hinge fallback, not an identical knee-flexion replacement."
+              "d": "Towels/sliders on a safe smooth surface; if impossible, use assisted Nordic eccentrics with securely anchored ankles. RDLs are a hip-hinge fallback, not an identical knee-flexion replacement.",
+              "compactCue": "Towels or sliders on a smooth floor"
             },
             {
               "n": "Standing calf raise",
               "s": "Optional 2 × 12–20",
-              "d": "Dumbbells in hands; controlled full range."
+              "d": "Dumbbells in hands; controlled full range.",
+              "compactCue": "Dumbbells in hands · full range"
             }
           ]
         }
@@ -279,7 +300,8 @@
             {
               "n": "Continuous RowErg / SkiErg",
               "s": "40–55 min",
-              "d": "Talk-test intensity: comfortable full sentences, RPE 3–4/10. For mixed machines, transitions are easy; do not race."
+              "d": "Talk-test intensity: comfortable full sentences, RPE 3–4/10. For mixed machines, transitions are easy; do not race.",
+              "compactCue": "Full sentences · RPE 3–4/10"
             }
           ]
         },
@@ -314,17 +336,20 @@
             {
               "n": "Minute 1",
               "s": "40 sec",
-              "d": "8 light kettlebell deadlifts or swings, chosen for today's WOD."
+              "d": "8 light kettlebell deadlifts or swings, chosen for today's WOD.",
+              "compactCue": "8 light kettlebell deadlifts or swings"
             },
             {
               "n": "Minute 2",
               "s": "40 sec",
-              "d": "6 reverse lunges + 6 bodyweight squats."
+              "d": "6 reverse lunges + 6 bodyweight squats.",
+              "compactCue": "6 reverse lunges + 6 bodyweight squats"
             },
             {
               "n": "Minute 3",
               "s": "40 sec",
-              "d": "5 light dumbbell presses + 5 controlled walkouts; adjust to WOD."
+              "d": "5 light dumbbell presses + 5 controlled walkouts; adjust to WOD.",
+              "compactCue": "5 light DB presses + 5 controlled walkouts"
             }
           ]
         },
@@ -335,7 +360,8 @@
             {
               "n": "Incline dumbbell press + one-arm DB row",
               "s": "2–3 × 8–12 each",
-              "d": "Default upper-body superset, 1–2 RIR. If WOD is pressing/pulling-heavy, swap for an untrained accessory or omit."
+              "d": "Default upper-body superset, 1–2 RIR. If WOD is pressing/pulling-heavy, swap for an untrained accessory or omit.",
+              "compactCue": "Superset · 1–2 RIR"
             },
             {
               "n": "Dumbbell lateral raise",
@@ -345,7 +371,8 @@
             {
               "n": "Alternative: front squat + chin-up",
               "s": "2–3 × 5–8 each",
-              "d": "Only when the upcoming WOD is NOT squat, jump or pull-dominant; keep 2–3 RIR."
+              "d": "Only when the upcoming WOD is NOT squat, jump or pull-dominant; keep 2–3 RIR.",
+              "compactCue": "2–3 RIR"
             }
           ]
         },
@@ -365,7 +392,63 @@
         "FRIDAY_SOLO",
         "FRIDAY_TEAM"
       ],
-      "cue": "Friday may be hard, but not every WOD needs to be maximal. If the team WOD is longer or very demanding, skip accessory lifting; protect Saturday's easy run."
+      "cue": "Friday may be hard, but not every WOD needs to be maximal. If the team WOD is longer or very demanding, skip accessory lifting; protect Saturday's easy run.",
+      "regular": {
+        "theme": "Full-Body Strength + Easy Row",
+        "type": "STRENGTH + EASY ROW",
+        "duration": "35–45 MIN",
+        "intent": "A steady Friday gym session. Complete each lift before moving to the next.",
+        "phases": [
+          {
+            "name": "Warm-up",
+            "dur": "5 min",
+            "items": [
+              {
+                "n": "Easy RowErg",
+                "s": "5 min"
+              }
+            ]
+          },
+          {
+            "name": "Full-body strength",
+            "dur": "20–25 min",
+            "items": [
+              {
+                "n": "Goblet squat",
+                "s": "2 × 8–12",
+                "compactCue": "Kettlebell at chest"
+              },
+              {
+                "n": "Flat dumbbell bench press",
+                "s": "2 × 8–12"
+              },
+              {
+                "n": "Chest-supported dumbbell row",
+                "s": "2 × 8–12",
+                "compactCue": "Incline bench"
+              },
+              {
+                "n": "Dumbbell Romanian deadlift",
+                "s": "2 × 8–12",
+                "compactCue": "Hips back · control the lowering"
+              }
+            ],
+            "compactCue": "Leave 2–3 reps in reserve · rest 90–120 sec between sets"
+          },
+          {
+            "name": "Easy finish",
+            "dur": "10–15 min",
+            "items": [
+              {
+                "n": "Easy RowErg",
+                "s": "10–15 min",
+                "compactCue": "Conversational pace"
+              }
+            ]
+          }
+        ],
+        "cue": "Keep the row easy ahead of Saturday’s run."
+      }
     },
     {
       "day": "SAT",
@@ -458,12 +541,14 @@
           {
             "name": "Progressive row",
             "reps": "8 min",
-            "detail": "Easy build with three short accelerations."
+            "detail": "Easy build with three short accelerations.",
+            "compactCue": "Finish with 3 short accelerations"
           },
           {
             "name": "Hard row",
             "reps": "6 × 2 min",
-            "detail": "RPE 8–9, consistent watts."
+            "detail": "RPE 8–9, consistent watts.",
+            "compactCue": "RPE 8–9 · consistent watts"
           },
           {
             "name": "Easy row",
@@ -499,7 +584,8 @@
           {
             "name": "Hard SkiErg",
             "reps": "5 × 3 min",
-            "detail": "RPE 8, repeatable."
+            "detail": "RPE 8, repeatable.",
+            "compactCue": "RPE 8 · repeatable pace"
           },
           {
             "name": "Easy recovery",
@@ -569,12 +655,14 @@
           {
             "name": "Alternating DB snatch",
             "reps": "10 total",
-            "detail": "5 per arm, moderate load."
+            "detail": "5 per arm, moderate load.",
+            "compactCue": "5 per arm · moderate DB"
           },
           {
             "name": "Goblet squat",
             "reps": "12 reps",
-            "detail": "Moderate kettlebell."
+            "detail": "Moderate kettlebell.",
+            "compactCue": "Moderate kettlebell"
           },
           {
             "name": "Burpees",
@@ -601,28 +689,33 @@
           {
             "name": "Minute 1 — RowErg",
             "reps": "10–12 cal",
-            "detail": "Scale to finish by ~45 sec."
+            "detail": "Scale to finish by ~45 sec.",
+            "compactCue": "Finish by ~45 sec"
           },
           {
             "name": "Minute 2 — KB swings",
             "reps": "10 reps",
-            "detail": "Russian swings, moderate load."
+            "detail": "Russian swings, moderate load.",
+            "compactCue": "Russian swings · moderate KB"
           },
           {
             "name": "Minute 3 — DB push press",
             "reps": "8 reps",
-            "detail": "Light-to-moderate; controlled."
+            "detail": "Light-to-moderate; controlled.",
+            "compactCue": "Light-to-moderate DBs"
           },
           {
             "name": "Minute 4 — Farmer carry",
             "reps": "35–40 sec",
-            "detail": "Moderate weight, clear path."
+            "detail": "Moderate weight, clear path.",
+            "compactCue": "Moderate load"
           }
         ],
         "notes": [
           "Rest for remainder of each minute.",
           "Score completed minutes; no failure."
-        ]
+        ],
+        "compactCue": "Rest for the remainder of each minute."
       },
       {
         "format": "For time",
@@ -637,7 +730,8 @@
           {
             "name": "Thrusters",
             "reps": "21–15–9",
-            "detail": "Barbell or dumbbells; choose a sustainable load."
+            "detail": "Barbell or dumbbells; choose a sustainable load.",
+            "compactCue": "Barbell or DBs · sustainable load"
           },
           {
             "name": "Pull-ups",
@@ -664,12 +758,14 @@
           {
             "name": "Box jumps or step-ups",
             "reps": "5",
-            "detail": "Step down; prioritize landing quality."
+            "detail": "Step down; prioritize landing quality.",
+            "compactCue": "Step down"
           },
           {
             "name": "Light thrusters",
             "reps": "5",
-            "detail": "Barbell 20 kg as historic reference, scale freely."
+            "detail": "Barbell 20 kg as historic reference, scale freely.",
+            "compactCue": "Light barbell · 20 kg reference"
           },
           {
             "name": "KB swings",
@@ -685,6 +781,103 @@
         "notes": [
           "Score completed rounds and reps.",
           "Avoid all-out jumping after heavy leg fatigue."
+        ]
+      },
+      {
+        "format": "AMRAP",
+        "duration": "16 min",
+        "title": "Ski + Step",
+        "tagline": "SkiErg and simple bodyweight work",
+        "tags": [
+          "SkiErg",
+          "Bodyweight"
+        ],
+        "moves": [
+          {
+            "name": "SkiErg",
+            "reps": "200 m"
+          },
+          {
+            "name": "Alternating box step-ups",
+            "reps": "10 total",
+            "compactCue": "Bodyweight · 5 per leg"
+          },
+          {
+            "name": "Hand-release push-ups",
+            "reps": "8 reps"
+          },
+          {
+            "name": "Sit-ups",
+            "reps": "12 reps"
+          }
+        ],
+        "notes": [
+          "Score rounds plus reps."
+        ]
+      },
+      {
+        "format": "Every 4 min",
+        "duration": "20 min",
+        "title": "Row + Floor Press",
+        "tagline": "Five repeatable efforts with built-in recovery",
+        "tags": [
+          "RowErg",
+          "Dumbbells"
+        ],
+        "compactCue": "5 rounds. Start a round every 4 min and rest after each round.",
+        "moves": [
+          {
+            "name": "RowErg",
+            "reps": "250 m"
+          },
+          {
+            "name": "Dumbbell floor press",
+            "reps": "10 reps",
+            "compactCue": "Moderate DBs"
+          },
+          {
+            "name": "Alternating reverse lunges",
+            "reps": "12 total",
+            "compactCue": "Bodyweight · 6 per leg"
+          }
+        ],
+        "notes": [
+          "Aim for similar round times."
+        ]
+      },
+      {
+        "format": "For time",
+        "duration": "18 min cap",
+        "title": "Four-Round Kettlebell Circuit",
+        "tagline": "Kettlebell work with a bodyweight break",
+        "tags": [
+          "Kettlebell",
+          "For time"
+        ],
+        "compactCue": "4 rounds in order.",
+        "moves": [
+          {
+            "name": "Russian kettlebell swings",
+            "reps": "12 reps",
+            "compactCue": "Moderate KB · swing to chest height"
+          },
+          {
+            "name": "Goblet squats",
+            "reps": "10 reps",
+            "compactCue": "Same kettlebell"
+          },
+          {
+            "name": "Burpees",
+            "reps": "6 reps"
+          },
+          {
+            "name": "Single-arm suitcase carry",
+            "reps": "40 m total",
+            "compactCue": "20 m per hand"
+          }
+        ],
+        "notes": [
+          "Score total time or completed work at the cap."
         ]
       }
     ],
@@ -744,7 +937,8 @@
           "Switch partners as desired; only one partner works at a time.",
           "Original volume was longer and included equipment you don't have; this is a scaled subset.",
           "Skip extra strength if doing the full chipper."
-        ]
+        ],
+        "compactCue": "One partner works at a time. Split the shared reps."
       },
       {
         "format": "Partner AMRAP",
@@ -760,12 +954,14 @@
           {
             "name": "Partner A — RowErg",
             "reps": "250 m",
-            "detail": "Partner B holds a light farmer carry or rests."
+            "detail": "Partner B holds a light farmer carry or rests.",
+            "compactCue": "Partner B holds light farmer weights or rests"
           },
           {
             "name": "Partner B — Goblet squats",
             "reps": "12 reps",
-            "detail": "Moderate load."
+            "detail": "Moderate load.",
+            "compactCue": "Moderate kettlebell"
           },
           {
             "name": "Partner B — Burpees",
@@ -834,33 +1030,133 @@
           {
             "name": "Minute 1 — DB push press",
             "reps": "AMRAP reps",
-            "detail": "Partner A, moderate weight."
+            "detail": "Partner A, moderate weight.",
+            "compactCue": "Partner A · moderate DBs"
           },
           {
             "name": "Minute 2 — Box step-ups",
             "reps": "AMRAP reps",
-            "detail": "Partner B."
+            "detail": "Partner B.",
+            "compactCue": "Partner B"
           },
           {
             "name": "Minute 3 — KB swings",
             "reps": "AMRAP reps",
-            "detail": "Partner A."
+            "detail": "Partner A.",
+            "compactCue": "Partner A"
           },
           {
             "name": "Minute 4 — Burpees",
             "reps": "AMRAP reps",
-            "detail": "Partner B."
+            "detail": "Partner B.",
+            "compactCue": "Partner B"
           },
           {
             "name": "Minute 5 — Rest and swap roles",
             "reps": "1 min",
-            "detail": "Repeat for 4 cycles; alternate starting partner each cycle."
+            "detail": "Repeat for 4 cycles; alternate starting partner each cycle.",
+            "compactCue": "4 cycles · alternate who starts"
           }
         ],
         "notes": [
           "Score total good reps.",
           "No wall balls, battle ropes or ring stations needed.",
           "Keep transition and technique safe; swap roles across cycles."
+        ]
+      },
+      {
+        "format": "Partner AMRAP",
+        "duration": "18 min",
+        "title": "Alternate and Ski",
+        "tagline": "Take turns on full rounds",
+        "tags": [
+          "SkiErg",
+          "Kettlebell"
+        ],
+        "compactCue": "A completes one round while B rests, then swap.",
+        "moves": [
+          {
+            "name": "SkiErg",
+            "reps": "200 m"
+          },
+          {
+            "name": "Goblet squats",
+            "reps": "10 reps",
+            "compactCue": "Moderate kettlebell"
+          },
+          {
+            "name": "Sit-ups",
+            "reps": "10 reps"
+          }
+        ],
+        "notes": [
+          "Score total rounds plus reps across both partners."
+        ]
+      },
+      {
+        "format": "Partner AMRAP",
+        "duration": "20 min",
+        "title": "Row and Sync",
+        "tagline": "Share the row, then move together",
+        "tags": [
+          "RowErg",
+          "Synchronized"
+        ],
+        "compactCue": "Both partners row, then do the squats and push-ups together.",
+        "moves": [
+          {
+            "name": "RowErg",
+            "reps": "400 m shared",
+            "compactCue": "200 m each · one at a time"
+          },
+          {
+            "name": "Synchronized air squats",
+            "reps": "12 each",
+            "compactCue": "Stand tall together"
+          },
+          {
+            "name": "Synchronized push-ups",
+            "reps": "8 each",
+            "compactCue": "Reach the top together"
+          }
+        ],
+        "notes": [
+          "Score completed team rounds plus reps."
+        ]
+      },
+      {
+        "format": "Partner chipper",
+        "duration": "22 min cap",
+        "title": "Carry the Chipper",
+        "tagline": "Work through one shared list",
+        "tags": [
+          "Dumbbells",
+          "Shared reps"
+        ],
+        "compactCue": "One pass through the list. One partner works at a time.",
+        "moves": [
+          {
+            "name": "RowErg",
+            "reps": "800 m shared"
+          },
+          {
+            "name": "Dumbbell floor press",
+            "reps": "40 shared",
+            "compactCue": "Moderate DBs"
+          },
+          {
+            "name": "Box step-ups",
+            "reps": "40 shared",
+            "compactCue": "Bodyweight"
+          },
+          {
+            "name": "Farmer carry",
+            "reps": "160 m shared",
+            "compactCue": "Moderate DBs"
+          }
+        ],
+        "notes": [
+          "Switch partners as needed and score total time."
         ]
       }
     ]
