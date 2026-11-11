@@ -879,6 +879,45 @@
         "notes": [
           "Score total time or completed work at the cap."
         ]
+      },
+      {
+        "format": "EMOM",
+        "duration": "20 min",
+        "title": "Front Squat Engine",
+        "tagline": "Five rounds of four minutes; controlled front-squat strength plus conditioning.",
+        "tags": [
+          "Front squat",
+          "RowErg",
+          "Box",
+          "Solo"
+        ],
+        "moves": [
+          {
+            "name": "Minute 1 — Front squat",
+            "reps": "6 reps",
+            "detail": "Moderate barbell; 2–3 reps in reserve, consistent across all five rounds."
+          },
+          {
+            "name": "Minute 2 — RowErg",
+            "reps": "10–12 cal",
+            "detail": "Finish within 45 seconds."
+          },
+          {
+            "name": "Minute 3 — Pull-ups",
+            "reps": "8 reps",
+            "detail": "Scale to finish in ~40 seconds."
+          },
+          {
+            "name": "Minute 4 — Box step-ups",
+            "reps": "8 total",
+            "detail": "Light-to-moderate dumbbells or bodyweight; controlled step down."
+          }
+        ],
+        "notes": [
+          "One station each minute; rest for the remainder. Five cycles.",
+          "Avoid grinding front squats; reduce loading if tempo slows.",
+          "Skip front squats in the optional pre-WOD strength block when choosing this workout."
+        ]
       }
     ],
     "FRIDAY_TEAM": [
@@ -1157,6 +1196,45 @@
         ],
         "notes": [
           "Switch partners as needed and score total time."
+        ]
+      },
+      {
+        "format": "You Go I Go",
+        "duration": "20 min",
+        "title": "Partner Leg Drive",
+        "tagline": "Alternating individual rounds with built-in partner recovery.",
+        "tags": [
+          "2 people",
+          "Lower body",
+          "Dumbbells",
+          "RowErg"
+        ],
+        "moves": [
+          {
+            "name": "DB front-rack squats",
+            "reps": "6 reps",
+            "detail": "Moderate load, controlled depth."
+          },
+          {
+            "name": "Weighted box step-ups",
+            "reps": "8 total",
+            "detail": "Four per leg; light-to-moderate dumbbells."
+          },
+          {
+            "name": "RowErg",
+            "reps": "200 m",
+            "detail": "Strong, repeatable pace."
+          },
+          {
+            "name": "Switch partners",
+            "reps": "After each round",
+            "detail": "One partner completes all three exercises while the other rests."
+          }
+        ],
+        "notes": [
+          "Score combined completed rounds in 20 minutes.",
+          "Choose weights both partners can move with good technique.",
+          "Skip optional front-squat primer if this already provides enough leg work."
         ]
       }
     ]
