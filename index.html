@@ -337,7 +337,6 @@ html, body {
 .wo-move-num  { font-size: 9px; font-weight: 700; color: var(--text3); flex-shrink: 0; min-width: 14px; padding-top: 2px; }
 .wo-move-body { flex: 1; min-width: 0; }
 .wo-move-name { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.3; }
-.wo-move-desc { display: none; }
 .wo-move-reps { font-size: 10px; font-weight: 700; white-space: nowrap; padding: 2px 8px; border-radius: 5px; flex-shrink: 0; margin-top: 2px; }
 
 .wo-notes-block { padding: 13px 15px; }
@@ -1058,12 +1057,11 @@ body::before {
   *,*::before,*::after { animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; }
 }
 
-/* Compact gym view: show the prescription, not coaching essays.
-   Full descriptions remain accessible through the Details switch. */
+/* Show execution cues in compact view and full descriptions in Details. */
 body:not(.show-workout-details) .adapt,
 body:not(.show-workout-details) .purpose,
 body:not(.show-workout-details) .choice-strip,
-body:not(.show-workout-details) .ex-desc,
+body:not(.show-workout-details) .full-description,
 body:not(.show-workout-details) .coach-card,
 body:not(.show-workout-details) .ex-lift-header,
 body:not(.show-workout-details) .ex-lift-history,
@@ -1074,11 +1072,15 @@ body:not(.show-workout-details) .hiit-constraints,
 body:not(.show-workout-details) .gen-hint,
 body:not(.show-workout-details) .wo-tagline,
 body:not(.show-workout-details) .wo-meta-pills,
-body:not(.show-workout-details) .wo-move-desc,
 body:not(.show-workout-details) .wo-notes-block,
 body:not(.show-workout-details) .wo-structure-lbl,
 body:not(.show-workout-details) .wo-move-num,
 body:not(.show-workout-details) .wo-empty { display:none !important; }
+body.show-workout-details .compact-only { display:none; }
+.compact-cue { margin-top:3px; color:var(--text2); font-size:12px; line-height:1.35; }
+.phase-cue { margin:0 0 6px; }
+.wo-cue { margin-bottom:7px; }
+.wo-move-reps { max-width:46%; white-space:normal; text-align:right; }
 body:not(.show-workout-details) .hero { margin-bottom:12px; padding-top:10px; padding-bottom:10px; }
 body:not(.show-workout-details) .phase { margin-bottom:12px; }
 body:not(.show-workout-details) .phase-head { margin-bottom:5px; }
@@ -1097,6 +1099,8 @@ body:not(.show-workout-details) .gen-row { padding-top:8px; padding-bottom:8px; 
   border-radius:7px; padding:5px 8px; font-size:11px; cursor:pointer;
 }
 .details-toggle[aria-pressed="true"] { border-color:var(--c); color:var(--c); }
+.friday-mode { display:flex; gap:6px; margin-bottom:12px; }
+.friday-mode button { flex:1; min-height:38px; font-size:12px; }
 
 </style>
 </head>
@@ -2148,7 +2152,639 @@ const LOWER = [
 ];
 
 let HIIT_WORKOUTS = {
-  FOUR_BY_FOUR: LOWER.filter(workout => workout.title === 'Pure VO2 Max')
+  "TUESDAY_VO2": [
+    {
+      "format": "6 × 2 min",
+      "duration": "~35 min",
+      "title": "RowErg · Six by Two",
+      "tagline": "Primary VO₂ max alternative with repeatable watts.",
+      "tags": [
+        "RowErg",
+        "12 hard minutes"
+      ],
+      "moves": [
+        {
+          "name": "Progressive row",
+          "reps": "8 min",
+          "detail": "Easy build with three short accelerations.",
+          "compactCue": "Finish with 3 short accelerations"
+        },
+        {
+          "name": "Hard row",
+          "reps": "6 × 2 min",
+          "detail": "RPE 8–9, consistent watts.",
+          "compactCue": "RPE 8–9 · consistent watts"
+        },
+        {
+          "name": "Easy row",
+          "reps": "2 min between",
+          "detail": "Active recovery."
+        },
+        {
+          "name": "Cooldown",
+          "reps": "5 min",
+          "detail": "Unhurried."
+        }
+      ],
+      "notes": [
+        "Replaces Tuesday 4 × 4; do not add it on top.",
+        "Choose RowErg by default."
+      ]
+    },
+    {
+      "format": "5 × 3 min",
+      "duration": "~36 min",
+      "title": "SkiErg · Five by Three",
+      "tagline": "Alternative when legs still feel heavy.",
+      "tags": [
+        "SkiErg",
+        "15 hard minutes"
+      ],
+      "moves": [
+        {
+          "name": "Progressive SkiErg",
+          "reps": "8 min",
+          "detail": "Build gradually."
+        },
+        {
+          "name": "Hard SkiErg",
+          "reps": "5 × 3 min",
+          "detail": "RPE 8, repeatable.",
+          "compactCue": "RPE 8 · repeatable pace"
+        },
+        {
+          "name": "Easy recovery",
+          "reps": "2 min between",
+          "detail": "Keep moving."
+        },
+        {
+          "name": "Cooldown",
+          "reps": "5 min",
+          "detail": "Easy."
+        }
+      ],
+      "notes": [
+        "Entire Tuesday replacement.",
+        "Stop before technique breaks or shoulder fatigue becomes excessive."
+      ]
+    }
+  ],
+  "FRIDAY_SOLO": [
+    {
+      "format": "AMRAP",
+      "duration": "20 min",
+      "title": "Cindy",
+      "tagline": "Classic gymnastics benchmark from your archive.",
+      "tags": [
+        "Bodyweight",
+        "Benchmark"
+      ],
+      "moves": [
+        {
+          "name": "Pull-ups",
+          "reps": "5 reps",
+          "detail": "Strict or scaled."
+        },
+        {
+          "name": "Push-ups",
+          "reps": "10 reps",
+          "detail": "Full range; scale incline if needed."
+        },
+        {
+          "name": "Air squats",
+          "reps": "15 reps",
+          "detail": "Consistent depth."
+        }
+      ],
+      "notes": [
+        "Score rounds + reps in 20 minutes.",
+        "Avoid additional pressing accessories if shoulders are already taxed."
+      ]
+    },
+    {
+      "format": "AMRAP",
+      "duration": "20 min",
+      "title": "Row + DB Engine",
+      "tagline": "Low-complexity mixed conditioning with the equipment you have.",
+      "tags": [
+        "RowErg",
+        "Dumbbells",
+        "Kettlebell"
+      ],
+      "moves": [
+        {
+          "name": "RowErg",
+          "reps": "250 m",
+          "detail": "Repeatable pace."
+        },
+        {
+          "name": "Alternating DB snatch",
+          "reps": "10 total",
+          "detail": "5 per arm, moderate load.",
+          "compactCue": "5 per arm · moderate DB"
+        },
+        {
+          "name": "Goblet squat",
+          "reps": "12 reps",
+          "detail": "Moderate kettlebell.",
+          "compactCue": "Moderate kettlebell"
+        },
+        {
+          "name": "Burpees",
+          "reps": "8 reps",
+          "detail": "Smooth transitions."
+        }
+      ],
+      "notes": [
+        "Score rounds + reps.",
+        "If legs are sore from Wednesday, reduce goblet load and keep rowing steady."
+      ]
+    },
+    {
+      "format": "EMOM",
+      "duration": "20 min",
+      "title": "Equipment EMOM",
+      "tagline": "Five rounds of four controlled stations.",
+      "tags": [
+        "RowErg",
+        "KB",
+        "DB"
+      ],
+      "moves": [
+        {
+          "name": "Minute 1 — RowErg",
+          "reps": "10–12 cal",
+          "detail": "Scale to finish by ~45 sec.",
+          "compactCue": "Finish by ~45 sec"
+        },
+        {
+          "name": "Minute 2 — KB swings",
+          "reps": "10 reps",
+          "detail": "Russian swings, moderate load.",
+          "compactCue": "Russian swings · moderate KB"
+        },
+        {
+          "name": "Minute 3 — DB push press",
+          "reps": "8 reps",
+          "detail": "Light-to-moderate; controlled.",
+          "compactCue": "Light-to-moderate DBs"
+        },
+        {
+          "name": "Minute 4 — Farmer carry",
+          "reps": "35–40 sec",
+          "detail": "Moderate weight, clear path.",
+          "compactCue": "Moderate load"
+        }
+      ],
+      "notes": [
+        "Rest for remainder of each minute.",
+        "Score completed minutes; no failure."
+      ],
+      "compactCue": "Rest for the remainder of each minute."
+    },
+    {
+      "format": "For time",
+      "duration": "12 min cap",
+      "title": "Fran · Scaled",
+      "tagline": "Classic benchmark from your archive; keep good barbell technique.",
+      "tags": [
+        "Thrusters",
+        "Pull-ups"
+      ],
+      "moves": [
+        {
+          "name": "Thrusters",
+          "reps": "21–15–9",
+          "detail": "Barbell or dumbbells; choose a sustainable load.",
+          "compactCue": "Barbell or DBs · sustainable load"
+        },
+        {
+          "name": "Pull-ups",
+          "reps": "21–15–9",
+          "detail": "Use strict/scaled reps appropriate to capacity."
+        }
+      ],
+      "notes": [
+        "Complete the two movements each round.",
+        "Record load, time and scaling. Skip pressing accessories beforehand."
+      ]
+    },
+    {
+      "format": "AMRAP",
+      "duration": "12 min",
+      "title": "Your Box + KB Five",
+      "tagline": "Adapted from your original 12-minute benchmark.",
+      "tags": [
+        "Box",
+        "KB",
+        "Barbell"
+      ],
+      "moves": [
+        {
+          "name": "Box jumps or step-ups",
+          "reps": "5",
+          "detail": "Step down; prioritize landing quality.",
+          "compactCue": "Step down"
+        },
+        {
+          "name": "Light thrusters",
+          "reps": "5",
+          "detail": "Barbell 20 kg as historic reference, scale freely.",
+          "compactCue": "Light barbell · 20 kg reference"
+        },
+        {
+          "name": "KB swings",
+          "reps": "5",
+          "detail": "Moderate load."
+        },
+        {
+          "name": "Barbell curls",
+          "reps": "5",
+          "detail": "Controlled reps; not a sprint."
+        }
+      ],
+      "notes": [
+        "Score completed rounds and reps.",
+        "Avoid all-out jumping after heavy leg fatigue."
+      ]
+    },
+    {
+      "format": "AMRAP",
+      "duration": "16 min",
+      "title": "Ski + Step",
+      "tagline": "SkiErg and simple bodyweight work",
+      "tags": [
+        "SkiErg",
+        "Bodyweight"
+      ],
+      "moves": [
+        {
+          "name": "SkiErg",
+          "reps": "200 m"
+        },
+        {
+          "name": "Alternating box step-ups",
+          "reps": "10 total",
+          "compactCue": "Bodyweight · 5 per leg"
+        },
+        {
+          "name": "Hand-release push-ups",
+          "reps": "8 reps"
+        },
+        {
+          "name": "Sit-ups",
+          "reps": "12 reps"
+        }
+      ],
+      "notes": [
+        "Score rounds plus reps."
+      ]
+    },
+    {
+      "format": "Every 4 min",
+      "duration": "20 min",
+      "title": "Row + Floor Press",
+      "tagline": "Five repeatable efforts with built-in recovery",
+      "tags": [
+        "RowErg",
+        "Dumbbells"
+      ],
+      "compactCue": "5 rounds. Start a round every 4 min and rest after each round.",
+      "moves": [
+        {
+          "name": "RowErg",
+          "reps": "250 m"
+        },
+        {
+          "name": "Dumbbell floor press",
+          "reps": "10 reps",
+          "compactCue": "Moderate DBs"
+        },
+        {
+          "name": "Alternating reverse lunges",
+          "reps": "12 total",
+          "compactCue": "Bodyweight · 6 per leg"
+        }
+      ],
+      "notes": [
+        "Aim for similar round times."
+      ]
+    },
+    {
+      "format": "For time",
+      "duration": "18 min cap",
+      "title": "Four-Round Kettlebell Circuit",
+      "tagline": "Kettlebell work with a bodyweight break",
+      "tags": [
+        "Kettlebell",
+        "For time"
+      ],
+      "compactCue": "4 rounds in order.",
+      "moves": [
+        {
+          "name": "Russian kettlebell swings",
+          "reps": "12 reps",
+          "compactCue": "Moderate KB · swing to chest height"
+        },
+        {
+          "name": "Goblet squats",
+          "reps": "10 reps",
+          "compactCue": "Same kettlebell"
+        },
+        {
+          "name": "Burpees",
+          "reps": "6 reps"
+        },
+        {
+          "name": "Single-arm suitcase carry",
+          "reps": "40 m total",
+          "compactCue": "20 m per hand"
+        }
+      ],
+      "notes": [
+        "Score total time or completed work at the cap."
+      ]
+    }
+  ],
+  "FRIDAY_TEAM": [
+    {
+      "format": "You Go I Go",
+      "duration": "30 min cap",
+      "title": "The Fatal · Equipment Adaptation",
+      "tagline": "Your partner chipper, adapted for the gym's equipment.",
+      "tags": [
+        "2 people",
+        "Shared reps"
+      ],
+      "moves": [
+        {
+          "name": "Burpees",
+          "reps": "40 shared",
+          "detail": "One partner works at a time."
+        },
+        {
+          "name": "Alternating DB snatches",
+          "reps": "40 shared",
+          "detail": "Moderate load."
+        },
+        {
+          "name": "Pull-ups or DB rows",
+          "reps": "40 shared",
+          "detail": "Original ring rows substituted."
+        },
+        {
+          "name": "Double KB deadlifts",
+          "reps": "40 shared",
+          "detail": "Moderate."
+        },
+        {
+          "name": "Push-ups",
+          "reps": "40 shared",
+          "detail": "Break into manageable sets."
+        },
+        {
+          "name": "Box step-ups or jumps",
+          "reps": "40 shared",
+          "detail": "Stable box and safe landings."
+        },
+        {
+          "name": "KB swings",
+          "reps": "40 shared",
+          "detail": "Moderate."
+        },
+        {
+          "name": "Sit-ups",
+          "reps": "40 shared",
+          "detail": "Finish together."
+        }
+      ],
+      "notes": [
+        "Switch partners as desired; only one partner works at a time.",
+        "Original volume was longer and included equipment you don't have; this is a scaled subset.",
+        "Skip extra strength if doing the full chipper."
+      ],
+      "compactCue": "One partner works at a time. Split the shared reps."
+    },
+    {
+      "format": "Partner AMRAP",
+      "duration": "24 min",
+      "title": "Partner Row + Carry",
+      "tagline": "New, easy-to-run team format without special equipment.",
+      "tags": [
+        "2 people",
+        "RowErg",
+        "KB"
+      ],
+      "moves": [
+        {
+          "name": "Partner A — RowErg",
+          "reps": "250 m",
+          "detail": "Partner B holds a light farmer carry or rests.",
+          "compactCue": "Partner B holds light farmer weights or rests"
+        },
+        {
+          "name": "Partner B — Goblet squats",
+          "reps": "12 reps",
+          "detail": "Moderate load.",
+          "compactCue": "Moderate kettlebell"
+        },
+        {
+          "name": "Partner B — Burpees",
+          "reps": "8 reps",
+          "detail": "Controlled."
+        },
+        {
+          "name": "Switch roles",
+          "reps": "Repeat",
+          "detail": "Count completed paired cycles."
+        }
+      ],
+      "notes": [
+        "Don't require unsafe loaded holds while the other partner rows.",
+        "One erg is enough; share it.",
+        "Score completed paired cycles."
+      ]
+    },
+    {
+      "format": "Ascending ladder",
+      "duration": "12 min",
+      "title": "Heartbreaker · No Wall Balls",
+      "tagline": "Adapted from your original synchronized-burpee partner ladder.",
+      "tags": [
+        "2 people",
+        "Ascending reps"
+      ],
+      "moves": [
+        {
+          "name": "Partner A — Goblet squats",
+          "reps": "2 reps, +1/round",
+          "detail": "Light-to-moderate."
+        },
+        {
+          "name": "Synchronized burpees",
+          "reps": "2 reps, +1/round",
+          "detail": "Both partners."
+        },
+        {
+          "name": "Partner B — Goblet squats",
+          "reps": "2 reps, +1/round",
+          "detail": "Same increment."
+        },
+        {
+          "name": "Synchronized burpees",
+          "reps": "2 reps, +1/round",
+          "detail": "Both partners."
+        }
+      ],
+      "notes": [
+        "Start at 2 and increase by one each completed round.",
+        "Replaces wall balls (equipment not listed).",
+        "Score highest complete ladder rung."
+      ]
+    },
+    {
+      "format": "Partner relay",
+      "duration": "20 min",
+      "title": "Fight Gone Bad · Partner Relay",
+      "tagline": "Equipment-safe adaptation of your archived partner workout.",
+      "tags": [
+        "2 people",
+        "Intervals"
+      ],
+      "moves": [
+        {
+          "name": "Minute 1 — DB push press",
+          "reps": "AMRAP reps",
+          "detail": "Partner A, moderate weight.",
+          "compactCue": "Partner A · moderate DBs"
+        },
+        {
+          "name": "Minute 2 — Box step-ups",
+          "reps": "AMRAP reps",
+          "detail": "Partner B.",
+          "compactCue": "Partner B"
+        },
+        {
+          "name": "Minute 3 — KB swings",
+          "reps": "AMRAP reps",
+          "detail": "Partner A.",
+          "compactCue": "Partner A"
+        },
+        {
+          "name": "Minute 4 — Burpees",
+          "reps": "AMRAP reps",
+          "detail": "Partner B.",
+          "compactCue": "Partner B"
+        },
+        {
+          "name": "Minute 5 — Rest and swap roles",
+          "reps": "1 min",
+          "detail": "Repeat for 4 cycles; alternate starting partner each cycle.",
+          "compactCue": "4 cycles · alternate who starts"
+        }
+      ],
+      "notes": [
+        "Score total good reps.",
+        "No wall balls, battle ropes or ring stations needed.",
+        "Keep transition and technique safe; swap roles across cycles."
+      ]
+    },
+    {
+      "format": "Partner AMRAP",
+      "duration": "18 min",
+      "title": "Alternate and Ski",
+      "tagline": "Take turns on full rounds",
+      "tags": [
+        "SkiErg",
+        "Kettlebell"
+      ],
+      "compactCue": "A completes one round while B rests, then swap.",
+      "moves": [
+        {
+          "name": "SkiErg",
+          "reps": "200 m"
+        },
+        {
+          "name": "Goblet squats",
+          "reps": "10 reps",
+          "compactCue": "Moderate kettlebell"
+        },
+        {
+          "name": "Sit-ups",
+          "reps": "10 reps"
+        }
+      ],
+      "notes": [
+        "Score total rounds plus reps across both partners."
+      ]
+    },
+    {
+      "format": "Partner AMRAP",
+      "duration": "20 min",
+      "title": "Row and Sync",
+      "tagline": "Share the row, then move together",
+      "tags": [
+        "RowErg",
+        "Synchronized"
+      ],
+      "compactCue": "Both partners row, then do the squats and push-ups together.",
+      "moves": [
+        {
+          "name": "RowErg",
+          "reps": "400 m shared",
+          "compactCue": "200 m each · one at a time"
+        },
+        {
+          "name": "Synchronized air squats",
+          "reps": "12 each",
+          "compactCue": "Stand tall together"
+        },
+        {
+          "name": "Synchronized push-ups",
+          "reps": "8 each",
+          "compactCue": "Reach the top together"
+        }
+      ],
+      "notes": [
+        "Score completed team rounds plus reps."
+      ]
+    },
+    {
+      "format": "Partner chipper",
+      "duration": "22 min cap",
+      "title": "Carry the Chipper",
+      "tagline": "Work through one shared list",
+      "tags": [
+        "Dumbbells",
+        "Shared reps"
+      ],
+      "compactCue": "One pass through the list. One partner works at a time.",
+      "moves": [
+        {
+          "name": "RowErg",
+          "reps": "800 m shared"
+        },
+        {
+          "name": "Dumbbell floor press",
+          "reps": "40 shared",
+          "compactCue": "Moderate DBs"
+        },
+        {
+          "name": "Box step-ups",
+          "reps": "40 shared",
+          "compactCue": "Bodyweight"
+        },
+        {
+          "name": "Farmer carry",
+          "reps": "160 m shared",
+          "compactCue": "Moderate DBs"
+        }
+      ],
+      "notes": [
+        "Switch partners as needed and score total time."
+      ]
+    }
+  ]
 };
 
 function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
@@ -2217,7 +2853,7 @@ function resolveHiitWeight(moveName, repsStr) {
 
 // Fallback data allows the page to remain usable when opened directly from disk.
 // The application replaces it with workout.json during startup.
-let DAYS = [{"day":"MON","label":"Monday","icon":"01","theme":"Full-Body Strength A","color":"#F2C14E","type":"STRENGTH","duration":"55–65 MIN","intent":"Balanced squat, press, pull and hypertrophy. No bench-press specialization; progress each muscle group while preserving Tuesday interval quality.","phases":[{"name":"Movement prep EMOM","dur":"6 min · 2 cycles","items":[{"n":"Minute 1","s":"40 sec","d":"8 air squats + 5 light goblet squats; move smoothly."},{"n":"Minute 2","s":"40 sec","d":"8 incline push-ups or scapular push-ups + 8 light DB rows."},{"n":"Minute 3","s":"40 sec","d":"8 hip hinges + 20-second plank; rest remaining time."}]},{"name":"Barbell ramp-up","dur":"As needed","items":[{"n":"Squat and bench ramp-up","s":"3–5 lighter sets","d":"Specific preparation; the EMOM is not a substitute for ascending barbell loads."}]},{"name":"Main strength","dur":"~30 min","items":[{"n":"Back squat","s":"3 × 5–8","d":"2 RIR; 2–3 min rest. If Tuesday rowing quality suffers, use 2 work sets."},{"n":"Bench press","s":"3 × 6–8","d":"1–2 RIR; 2–3 min rest. Squat and bench may alternate priority."},{"n":"Weighted pull-ups","s":"3 × 6–10","d":"1–2 RIR; 2 min rest; bodyweight is valid."}]},{"name":"Posterior chain + hypertrophy","dur":"~15 min","items":[{"n":"Romanian deadlift","s":"2 × 8–10","d":"2 RIR; control eccentric; use barbell or dumbbells."},{"n":"Dumbbell lateral raise","s":"3 × 12–20","d":"Near but not to technical failure."},{"n":"Dumbbell curl + triceps extension","s":"2 × 10–15 each","d":"Superset; 1–2 RIR; shorten if time is limited."}]}],"cue":"Log working loads and reps. Tuesday's repeatable interval watts matter more than squeezing in a fourth squat set."},{"day":"TUE","label":"Tuesday","icon":"02","theme":"Norwegian 4 × 4 · VO₂ Max","color":"#EF5D60","type":"PRIMARY HIIT","duration":"38–42 MIN","generatorPool":"TUESDAY_VO2","generatorLabel":"Generate alternative VO₂ max intervals","generatorBadge":"4 × 4 REPLACEMENT","generatorHint":"Alternative replaces the entire 4 × 4 workout","generatorGoal":"Keep Norwegian 4 × 4 as default. Select one machine-based interval alternative only for variety; do not stack it with 4 × 4.","generatorConstraints":["RowErg or SkiErg","Repeatable output","No loaded lifting","No failure"],"intent":"Your freshest hard cardiovascular session. Build VO₂ max through controlled high output, not all-out sprints.","phases":[{"name":"Progressive erg warm-up","dur":"8–10 min","items":[{"n":"Easy-to-moderate RowErg","s":"8–10 min","d":"Build gradually; finish with 2–3 controlled 10-second accelerations."}]},{"name":"Norwegian 4 × 4","dur":"25 min","items":[{"n":"Hard rowing intervals","s":"4 × 4 min","d":"RPE 8–9. Aim for roughly 85–95% max HR toward the latter part of intervals; preserve watts across all four."},{"n":"Very easy rowing","s":"3 min × 3","d":"Active recovery between hard intervals; do not sprint the final repetition."}]},{"name":"Cooldown","dur":"5 min","items":[{"n":"Easy RowErg","s":"5 min","d":"Let breathing normalize."}]}],"cue":"Progress average power at a comparable perceived effort; HR alone lags and is affected by sleep, heat and fatigue."},{"day":"WED","label":"Wednesday","icon":"03","theme":"Full-Body Strength B","color":"#F08A5D","type":"STRENGTH","duration":"50–60 MIN","intent":"Hinge-led strength and upper-body hypertrophy with reduced deadlift fatigue after Tuesday intervals. No cable or leg-curl machines required.","phases":[{"name":"Hinge + upper-body EMOM","dur":"6 min · 2 cycles","items":[{"n":"Minute 1","s":"40 sec","d":"10 glute bridges + 6 unloaded hip hinges."},{"n":"Minute 2","s":"40 sec","d":"8 light dumbbell rows + 8 scapular push-ups."},{"n":"Minute 3","s":"40 sec","d":"6 alternating reverse lunges + 8 arm circles per side."}]},{"name":"Deadlift ramp-up","dur":"As needed","items":[{"n":"Barbell deadlift warm-ups","s":"3–5 sets","d":"Increase gradually without fatigue."}]},{"name":"Primary strength","dur":"~25 min","items":[{"n":"Deadlift","s":"3 × 3–5","d":"~2 RIR; 2–3 min rest. Reduce to 2 sets if Tuesday leaves substantial fatigue."},{"n":"Incline dumbbell press","s":"3 × 8–12","d":"1–2 RIR; stable bench and controlled eccentric."},{"n":"One-arm dumbbell row","s":"3 × 8–12 / side","d":"1–2 RIR; support free hand on bench."}]},{"name":"Single-leg + shoulder + hamstrings","dur":"~17 min","items":[{"n":"Bulgarian split squat","s":"2 × 8–10 / leg","d":"2 RIR; use dumbbells."},{"n":"Seated dumbbell shoulder press","s":"2 × 8–12","d":"1–2 RIR; do not grind."},{"n":"Sliding hamstring curl","s":"2 × 8–15","d":"Towels/sliders on a safe smooth surface; if impossible, use assisted Nordic eccentrics with securely anchored ankles. RDLs are a hip-hinge fallback, not an identical knee-flexion replacement."},{"n":"Standing calf raise","s":"Optional 2 × 12–20","d":"Dumbbells in hands; controlled full range."}]}],"cue":"Maintain progression without reviving the old 5 × 5 deadlift fatigue burden."},{"day":"THU","label":"Thursday","icon":"04","theme":"Long Zone 2 · Aerobic Base","color":"#6EC5B8","type":"ZONE 2","duration":"50–65 MIN","intent":"Long, genuinely easy aerobic training before Friday's WOD. Use RowErg, SkiErg or a comfortable combination. Avoid turning this into tempo work.","phases":[{"name":"Easy build","dur":"5 min","items":[{"n":"Light RowErg or SkiErg","s":"5 min","d":"Settle into smooth breathing."}]},{"name":"Steady aerobic base","dur":"40–55 min","items":[{"n":"Continuous RowErg / SkiErg","s":"40–55 min","d":"Talk-test intensity: comfortable full sentences, RPE 3–4/10. For mixed machines, transitions are easy; do not race."}]},{"name":"Easy finish","dur":"5 min","items":[{"n":"Low-intensity cooldown","s":"5 min","d":"Finish recovered and ready for Friday."}]}],"cue":"Start at 50 min if needed; build toward 60–65. Physiological Zone 2 is individual—not a mandatory fixed Garmin HR number."},{"day":"FRI","label":"Friday","icon":"05","theme":"Strength Primer + CrossFit WOD","color":"#A78BFA","type":"WOD / STRENGTH","duration":"40–60 MIN","intent":"The week's flexible, enjoyable high-intensity session. Pick Solo WOD or Team WOD below; optional strength work complements the WOD rather than duplicates it.","phases":[{"name":"Movement-specific warm-up EMOM","dur":"6 min · 2 cycles","items":[{"n":"Minute 1","s":"40 sec","d":"8 light kettlebell deadlifts or swings, chosen for today's WOD."},{"n":"Minute 2","s":"40 sec","d":"6 reverse lunges + 6 bodyweight squats."},{"n":"Minute 3","s":"40 sec","d":"5 light dumbbell presses + 5 controlled walkouts; adjust to WOD."}]},{"name":"Optional strength / hypertrophy","dur":"12–18 min","items":[{"n":"Incline dumbbell press + one-arm DB row","s":"2–3 × 8–12 each","d":"Default upper-body superset, 1–2 RIR. If WOD is pressing/pulling-heavy, swap for an untrained accessory or omit."},{"n":"Dumbbell lateral raise","s":"2 × 12–20","d":"Optional after superset; skip if overhead-heavy WOD."},{"n":"Alternative: front squat + chin-up","s":"2–3 × 5–8 each","d":"Only when the upcoming WOD is NOT squat, jump or pull-dominant; keep 2–3 RIR."}]},{"name":"Conditioning — choose a WOD","dur":"15–25 min typically","items":[{"n":"Solo WOD or Team WOD","s":"Generate below","d":"Pick exactly one. For time workouts use a cap; shared partner reps are specified in the workout. Team WOD can replace the strength block."}]}],"wodPools":["FRIDAY_SOLO","FRIDAY_TEAM"],"cue":"Friday may be hard, but not every WOD needs to be maximal. If the team WOD is longer or very demanding, skip accessory lifting; protect Saturday's easy run."},{"day":"SAT","label":"Saturday","icon":"06","theme":"Long Easy Run","color":"#68A4FF","type":"ZONE 2 / RUN","duration":"60–75 MIN","intent":"Comfortable outdoor run, never a compulsory interval day; shorten if Friday included heavy jumping or squatting.","phases":[{"name":"Easy start","dur":"10 min","items":[{"n":"Slow conversational run","s":"10 min","d":"Allow your legs to loosen."}]},{"name":"Steady aerobic run","dur":"50–65 min","items":[{"n":"Conversational run","s":"50–65 min","d":"RPE 3–4/10; full-sentence talk test; optional walk breaks."}]},{"name":"Transition","dur":"2–5 min","items":[{"n":"Easy walk","s":"2–5 min","d":"Relax and recover."}]}],"cue":"Make Friday's enjoyment sustainable. No need for strides after a demanding team WOD."},{"day":"SUN","label":"Sunday","icon":"07","theme":"Rest + Readiness","color":"#B8B3A7","type":"RECOVERY","duration":"NO TARGET","intent":"An optional walk or gentle mobility session; let fatigue dissipate before Monday.","phases":[{"name":"Optional recovery","dur":"As useful","items":[{"n":"Easy walk","s":"20–40 min","d":"Optional and genuinely easy."},{"n":"Mobility or balance","s":"5–15 min","d":"Choose comfortable ranges; eyes-closed single-leg balance near support if desired."}]}],"cue":"Recovery is a condition for improving strength and aerobic fitness, not an additional workout quota."}];
+let DAYS = [{"day":"MON","label":"Monday","icon":"01","theme":"Full-Body Strength A","color":"#F2C14E","type":"STRENGTH","duration":"55–65 MIN","intent":"Balanced squat, press, pull and hypertrophy. No bench-press specialization; progress each muscle group while preserving Tuesday interval quality.","phases":[{"name":"Movement prep EMOM","dur":"6 min · 2 cycles","items":[{"n":"Minute 1","s":"40 sec","d":"8 air squats + 5 light goblet squats; move smoothly.","compactCue":"8 air squats + 5 light goblet squats"},{"n":"Minute 2","s":"40 sec","d":"8 incline push-ups or scapular push-ups + 8 light DB rows.","compactCue":"8 incline push-ups or scapular push-ups + 8 light DB rows"},{"n":"Minute 3","s":"40 sec","d":"8 hip hinges + 20-second plank; rest remaining time.","compactCue":"8 hip hinges + 20-sec plank"}]},{"name":"Barbell ramp-up","dur":"As needed","items":[{"n":"Squat and bench ramp-up","s":"3–5 lighter sets","d":"Specific preparation; the EMOM is not a substitute for ascending barbell loads."}]},{"name":"Main strength","dur":"~30 min","items":[{"n":"Back squat","s":"3 × 5–8","d":"2 RIR; 2–3 min rest. If Tuesday rowing quality suffers, use 2 work sets.","compactCue":"2 RIR · 2–3 min rest"},{"n":"Bench press","s":"3 × 6–8","d":"1–2 RIR; 2–3 min rest. Squat and bench may alternate priority.","compactCue":"1–2 RIR · 2–3 min rest"},{"n":"Weighted pull-ups","s":"3 × 6–10","d":"1–2 RIR; 2 min rest; bodyweight is valid.","compactCue":"Bodyweight OK · 1–2 RIR · 2 min rest"}]},{"name":"Posterior chain + hypertrophy","dur":"~15 min","items":[{"n":"Romanian deadlift","s":"2 × 8–10","d":"2 RIR; control eccentric; use barbell or dumbbells.","compactCue":"Barbell or DBs · control the lowering · 2 RIR"},{"n":"Dumbbell lateral raise","s":"3 × 12–20","d":"Near but not to technical failure."},{"n":"Dumbbell curl + triceps extension","s":"2 × 10–15 each","d":"Superset; 1–2 RIR; shorten if time is limited.","compactCue":"Superset · 1–2 RIR"}]}],"cue":"Log working loads and reps. Tuesday's repeatable interval watts matter more than squeezing in a fourth squat set."},{"day":"TUE","label":"Tuesday","icon":"02","theme":"Norwegian 4 × 4 · VO₂ Max","color":"#EF5D60","type":"PRIMARY HIIT","duration":"38–42 MIN","generatorPool":"TUESDAY_VO2","generatorLabel":"Generate alternative VO₂ max intervals","generatorBadge":"4 × 4 REPLACEMENT","generatorHint":"Alternative replaces the entire 4 × 4 workout","generatorGoal":"Keep Norwegian 4 × 4 as default. Select one machine-based interval alternative only for variety; do not stack it with 4 × 4.","generatorConstraints":["RowErg or SkiErg","Repeatable output","No loaded lifting","No failure"],"intent":"Your freshest hard cardiovascular session. Build VO₂ max through controlled high output, not all-out sprints.","phases":[{"name":"Progressive erg warm-up","dur":"8–10 min","items":[{"n":"Easy-to-moderate RowErg","s":"8–10 min","d":"Build gradually; finish with 2–3 controlled 10-second accelerations.","compactCue":"Finish with 2–3 controlled 10-sec accelerations"}]},{"name":"Norwegian 4 × 4","dur":"25 min","items":[{"n":"Hard rowing intervals","s":"4 × 4 min","d":"RPE 8–9. Aim for roughly 85–95% max HR toward the latter part of intervals; preserve watts across all four.","compactCue":"RPE 8–9 · 85–95% max HR late in each interval"},{"n":"Very easy rowing","s":"3 min × 3","d":"Active recovery between hard intervals; do not sprint the final repetition.","compactCue":"Active recovery between hard intervals"}]},{"name":"Cooldown","dur":"5 min","items":[{"n":"Easy RowErg","s":"5 min","d":"Let breathing normalize."}]}],"cue":"Progress average power at a comparable perceived effort; HR alone lags and is affected by sleep, heat and fatigue."},{"day":"WED","label":"Wednesday","icon":"03","theme":"Full-Body Strength B","color":"#F08A5D","type":"STRENGTH","duration":"50–60 MIN","intent":"Hinge-led strength and upper-body hypertrophy with reduced deadlift fatigue after Tuesday intervals. No cable or leg-curl machines required.","phases":[{"name":"Hinge + upper-body EMOM","dur":"6 min · 2 cycles","items":[{"n":"Minute 1","s":"40 sec","d":"10 glute bridges + 6 unloaded hip hinges.","compactCue":"10 glute bridges + 6 unloaded hip hinges"},{"n":"Minute 2","s":"40 sec","d":"8 light dumbbell rows + 8 scapular push-ups.","compactCue":"8 light DB rows + 8 scapular push-ups"},{"n":"Minute 3","s":"40 sec","d":"6 alternating reverse lunges + 8 arm circles per side.","compactCue":"6 alternating reverse lunges + 8 arm circles per side"}]},{"name":"Deadlift ramp-up","dur":"As needed","items":[{"n":"Barbell deadlift warm-ups","s":"3–5 sets","d":"Increase gradually without fatigue."}]},{"name":"Primary strength","dur":"~25 min","items":[{"n":"Deadlift","s":"3 × 3–5","d":"~2 RIR; 2–3 min rest. Reduce to 2 sets if Tuesday leaves substantial fatigue.","compactCue":"~2 RIR · 2–3 min rest"},{"n":"Incline dumbbell press","s":"3 × 8–12","d":"1–2 RIR; stable bench and controlled eccentric.","compactCue":"Control the lowering · 1–2 RIR"},{"n":"One-arm dumbbell row","s":"3 × 8–12 / side","d":"1–2 RIR; support free hand on bench.","compactCue":"Support free hand on bench · 1–2 RIR"}]},{"name":"Single-leg + shoulder + hamstrings","dur":"~17 min","items":[{"n":"Bulgarian split squat","s":"2 × 8–10 / leg","d":"2 RIR; use dumbbells.","compactCue":"Dumbbells · 2 RIR"},{"n":"Seated dumbbell shoulder press","s":"2 × 8–12","d":"1–2 RIR; do not grind.","compactCue":"1–2 RIR"},{"n":"Sliding hamstring curl","s":"2 × 8–15","d":"Towels/sliders on a safe smooth surface; if impossible, use assisted Nordic eccentrics with securely anchored ankles. RDLs are a hip-hinge fallback, not an identical knee-flexion replacement.","compactCue":"Towels or sliders on a smooth floor"},{"n":"Standing calf raise","s":"Optional 2 × 12–20","d":"Dumbbells in hands; controlled full range.","compactCue":"Dumbbells in hands · full range"}]}],"cue":"Maintain progression without reviving the old 5 × 5 deadlift fatigue burden."},{"day":"THU","label":"Thursday","icon":"04","theme":"Long Zone 2 · Aerobic Base","color":"#6EC5B8","type":"ZONE 2","duration":"50–65 MIN","intent":"Long, genuinely easy aerobic training before Friday's WOD. Use RowErg, SkiErg or a comfortable combination. Avoid turning this into tempo work.","phases":[{"name":"Easy build","dur":"5 min","items":[{"n":"Light RowErg or SkiErg","s":"5 min","d":"Settle into smooth breathing."}]},{"name":"Steady aerobic base","dur":"40–55 min","items":[{"n":"Continuous RowErg / SkiErg","s":"40–55 min","d":"Talk-test intensity: comfortable full sentences, RPE 3–4/10. For mixed machines, transitions are easy; do not race.","compactCue":"Full sentences · RPE 3–4/10"}]},{"name":"Easy finish","dur":"5 min","items":[{"n":"Low-intensity cooldown","s":"5 min","d":"Finish recovered and ready for Friday."}]}],"cue":"Start at 50 min if needed; build toward 60–65. Physiological Zone 2 is individual—not a mandatory fixed Garmin HR number."},{"day":"FRI","label":"Friday","icon":"05","theme":"Strength Primer + CrossFit WOD","color":"#A78BFA","type":"WOD / STRENGTH","duration":"40–60 MIN","intent":"The week's flexible, enjoyable high-intensity session. Pick Solo WOD or Team WOD below; optional strength work complements the WOD rather than duplicates it.","phases":[{"name":"Movement-specific warm-up EMOM","dur":"6 min · 2 cycles","items":[{"n":"Minute 1","s":"40 sec","d":"8 light kettlebell deadlifts or swings, chosen for today's WOD.","compactCue":"8 light kettlebell deadlifts or swings"},{"n":"Minute 2","s":"40 sec","d":"6 reverse lunges + 6 bodyweight squats.","compactCue":"6 reverse lunges + 6 bodyweight squats"},{"n":"Minute 3","s":"40 sec","d":"5 light dumbbell presses + 5 controlled walkouts; adjust to WOD.","compactCue":"5 light DB presses + 5 controlled walkouts"}]},{"name":"Optional strength / hypertrophy","dur":"12–18 min","items":[{"n":"Incline dumbbell press + one-arm DB row","s":"2–3 × 8–12 each","d":"Default upper-body superset, 1–2 RIR. If WOD is pressing/pulling-heavy, swap for an untrained accessory or omit.","compactCue":"Superset · 1–2 RIR"},{"n":"Dumbbell lateral raise","s":"2 × 12–20","d":"Optional after superset; skip if overhead-heavy WOD."},{"n":"Alternative: front squat + chin-up","s":"2–3 × 5–8 each","d":"Only when the upcoming WOD is NOT squat, jump or pull-dominant; keep 2–3 RIR.","compactCue":"2–3 RIR"}]},{"name":"Conditioning — choose a WOD","dur":"15–25 min typically","items":[{"n":"Solo WOD or Team WOD","s":"Generate below","d":"Pick exactly one. For time workouts use a cap; shared partner reps are specified in the workout. Team WOD can replace the strength block."}]}],"wodPools":["FRIDAY_SOLO","FRIDAY_TEAM"],"cue":"Friday may be hard, but not every WOD needs to be maximal. If the team WOD is longer or very demanding, skip accessory lifting; protect Saturday's easy run.","regular":{"theme":"Full-Body Strength + Easy Row","type":"STRENGTH + EASY ROW","duration":"35–45 MIN","intent":"A steady Friday gym session. Complete each lift before moving to the next.","phases":[{"name":"Warm-up","dur":"5 min","items":[{"n":"Easy RowErg","s":"5 min"}]},{"name":"Full-body strength","dur":"20–25 min","items":[{"n":"Goblet squat","s":"2 × 8–12","compactCue":"Kettlebell at chest"},{"n":"Flat dumbbell bench press","s":"2 × 8–12"},{"n":"Chest-supported dumbbell row","s":"2 × 8–12","compactCue":"Incline bench"},{"n":"Dumbbell Romanian deadlift","s":"2 × 8–12","compactCue":"Hips back · control the lowering"}],"compactCue":"Leave 2–3 reps in reserve · rest 90–120 sec between sets"},{"name":"Easy finish","dur":"10–15 min","items":[{"n":"Easy RowErg","s":"10–15 min","compactCue":"Conversational pace"}]}],"cue":"Keep the row easy ahead of Saturday’s run."}},{"day":"SAT","label":"Saturday","icon":"06","theme":"Long Easy Run","color":"#68A4FF","type":"ZONE 2 / RUN","duration":"60–75 MIN","intent":"Comfortable outdoor run, never a compulsory interval day; shorten if Friday included heavy jumping or squatting.","phases":[{"name":"Easy start","dur":"10 min","items":[{"n":"Slow conversational run","s":"10 min","d":"Allow your legs to loosen."}]},{"name":"Steady aerobic run","dur":"50–65 min","items":[{"n":"Conversational run","s":"50–65 min","d":"RPE 3–4/10; full-sentence talk test; optional walk breaks."}]},{"name":"Transition","dur":"2–5 min","items":[{"n":"Easy walk","s":"2–5 min","d":"Relax and recover."}]}],"cue":"Make Friday's enjoyment sustainable. No need for strides after a demanding team WOD."},{"day":"SUN","label":"Sunday","icon":"07","theme":"Rest + Readiness","color":"#B8B3A7","type":"RECOVERY","duration":"NO TARGET","intent":"An optional walk or gentle mobility session; let fatigue dissipate before Monday.","phases":[{"name":"Optional recovery","dur":"As useful","items":[{"n":"Easy walk","s":"20–40 min","d":"Optional and genuinely easy."},{"n":"Mobility or balance","s":"5–15 min","d":"Choose comfortable ranges; eyes-closed single-leg balance near support if desired."}]}],"cue":"Recovery is a condition for improving strength and aerobic fitness, not an additional workout quota."}];
 let NOTES = [{"title":"Training intent","body":"Build cardiovascular fitness, aerobic endurance, general strength and muscle mass. Tuesday is the measurable hard interval day; Friday is flexible CrossFit and optional accessories. Avoid treating HRV or VO₂ max as a sole longevity score."},{"title":"Aerobic minimum","body":"Thursday 50–65 min and Saturday 60–75 min deliver approximately 110–140 min of dedicated easy aerobic exercise. Tuesday 4 × 4 and Friday WOD add vigorous work but not all WOD minutes are aerobic. Add optional 10–30 min easy walking/rowing as recovery permits; 150 min Zone 2 is not a biological threshold."},{"title":"Intensity","body":"Zone 2 should remain conversational (roughly RPE 3–4/10); don't use an unverified fixed heart-rate cutoff. Tuesday 4 × 4 is RPE 8–9 and repeatable watts. Friday may be hard but needn't be maximal every week."},{"title":"EMOM warm-ups","body":"Strength days and Friday use six-minute movement-specific EMOMs, kept easy. Perform separate ascending barbell warm-up sets before working loads. Tuesday needs a progressive aerobic warm-up."},{"title":"Progressive overload","body":"For primary strength exercises use 1–3 repetitions in reserve. Add reps within prescribed ranges, then increase load by the smallest practical increment when all sets are clean. No compulsory paused-bench 100 kg specialization."},{"title":"Hypertrophy plateau","body":"Track working sets, loads/reps, weekly average body weight and optional circumference/photos for 8–12 weeks. Adequate protein alone does not ensure mass gain; energy availability and recovery matter. Add sets only if performance and recovery allow."},{"title":"Friday WOD rules","body":"Use one Solo or Team WOD. The optional 12–18 min accessory block is not compulsory; skip or change it when movements overlap the WOD. Scale reps, loads and time caps; protect Saturday's easy run."},{"title":"Equipment","body":"Available: RowErg, SkiErg, racks, pull-up/dip bars, barbells, dumbbells, kettlebells, bench, box and mats. No cable station, leg-curl machine, wall balls, ropes, rings or treadmill assumed."},{"title":"Fatigue adjustment","body":"If Tuesday intervals decline after Monday squats, reduce Monday squats to 2 sets. If Wednesday deadlift warm-ups feel unusually heavy, do only 2 working sets. After a very demanding Friday WOD, shorten Saturday's run or walk instead."},{"title":"Nutrition and sleep","body":"Maintain adequate overall calories, protein and carbohydrate availability for strength and interval training. Prioritize consistent sleep and recovery, not supplements or HRV chasing."}];
 
 // ─────────────────────────────────────────────────────
@@ -2227,16 +2863,24 @@ let NOTES = [{"title":"Training intent","body":"Build cardiovascular fitness, ae
 let cur = 0;
 let viewMode = 'day'; // 'day' | 'notes' | 'tracker'
 let trackerTab = 'stats'; // 'stats' | 'sessions'
+let fridayMode = 'crossfit';
 
 // ─────────────────────────────────────────────────────
 // RENDER HELPERS
 // ─────────────────────────────────────────────────────
 
+function exerciseCueHtml(cue, description) {
+  return `
+    ${cue ? `<div class="compact-cue${description ? ' compact-only' : ''}">${cue}</div>` : ''}
+    ${description ? `<div class="ex-desc full-description">${description}</div>` : ''}
+  `;
+}
+
 function phaseHtml(ph, idx, color, dayIdx) {
   const rows = ph.items.map(ex => {
     const trackId = resolveTrackableId(ex.n, dayIdx);
     const logger = trackId ? inlineLiftHtml(trackId, color) : '';
-    const description = ex.d ? `<div class="ex-desc">${ex.d}</div>` : '';
+    const description = exerciseCueHtml(ex.compactCue, ex.d);
     return `
       <div class="ex-row" style="${logger ? 'flex-direction:column;align-items:stretch;padding:0;' : ''}">
         ${logger ? `
@@ -2265,6 +2909,7 @@ function phaseHtml(ph, idx, color, dayIdx) {
         <div class="phase-title">${ph.name}</div>
         <div class="phase-dur">${ph.dur}</div>
       </div>
+      ${ph.compactCue ? `<div class="compact-cue phase-cue">${ph.compactCue}</div>` : ''}
       <div class="ex-table">${rows}</div>
     </div>
   `;
@@ -2364,7 +3009,7 @@ function genWorkout(id, poolName, color) {
       <div class="wo-move-num">${String(i+1).padStart(2,'0')}</div>
       <div class="wo-move-body">
         <div class="wo-move-name" style="display:flex;align-items:center;flex-wrap:wrap;gap:4px;">${m.name}${weightBadge}</div>
-        ${m.detail ? `<div class="wo-move-desc">${m.detail}</div>` : ''}
+        ${exerciseCueHtml(m.compactCue, m.detail)}
       </div>
       <span class="wo-move-reps" style="color:${color};background:${color}15;border:1px solid ${color}30;">${m.reps}</span>
     </div>
@@ -2388,6 +3033,7 @@ function genWorkout(id, poolName, color) {
     </div>
     <div class="wo-structure">
       <div class="wo-structure-lbl">Workout</div>
+      ${w.compactCue ? `<div class="compact-cue wo-cue">${w.compactCue}</div>` : ''}
       <div class="wo-moves">${movesHtml}</div>
     </div>
     <div class="wo-notes-block">
@@ -2674,8 +3320,18 @@ function toggleWorkoutDetails() {
   }
 }
 
+function setFridayMode(mode) {
+  if (fridayMode === mode) return;
+  fridayMode = mode;
+  renderDay();
+  document.getElementById(`friday-mode-${mode}`).focus();
+}
+
 function renderDay() {
-  const d = DAYS[cur];
+  const day = DAYS[cur];
+  const d = day.regular && fridayMode === 'regular'
+    ? { ...day, ...day.regular, wodPools: null }
+    : day;
   const col = d.color;
   document.documentElement.style.setProperty('--c', col);
   document.getElementById('topbar-title').textContent = d.label + ' · ' + d.theme;
@@ -2710,6 +3366,12 @@ function renderDay() {
     </div>`;
   }
 
+  if (day.regular) {
+    html += `<div class="friday-mode" role="group" aria-label="Friday session">
+      <button class="details-toggle" id="friday-mode-crossfit" type="button" aria-pressed="${fridayMode === 'crossfit'}" onclick="setFridayMode('crossfit')">CrossFit WOD</button>
+      <button class="details-toggle" id="friday-mode-regular" type="button" aria-pressed="${fridayMode === 'regular'}" onclick="setFridayMode('regular')">Regular workout</button>
+    </div>`;
+  }
   d.phases.forEach((ph, i) => { html += phaseHtml(ph, i + 1, col, cur); });
   if (d.generatorPool) html += hiitBlockHtml(d, d.phases.length + 1);
   if (d.wodPools) html += fridayWodHtml(d, d.phases.length + 1);
