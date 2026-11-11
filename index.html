@@ -1102,6 +1102,16 @@ body:not(.show-workout-details) .gen-row { padding-top:8px; padding-bottom:8px; 
 .friday-mode { display:flex; gap:6px; margin-bottom:12px; }
 .friday-mode button { flex:1; min-height:38px; font-size:12px; }
 
+
+/* Quick session completion; data is stored in the existing session log. */
+.finish-workout { margin:16px 0 20px; }
+.finish-workout-btn {
+  display:block; width:100%; padding:15px 12px;
+  border:0; border-radius:10px; background:var(--c); color:#141414;
+  font:700 14px 'Instrument Sans',sans-serif; cursor:pointer;
+}
+.finish-workout-btn:disabled { background:var(--bg3); color:var(--text2); border:1px solid var(--bord2); cursor:default; }
+.finish-workout-note { font-size:11px; color:var(--text3); text-align:center; margin-top:7px; }
 </style>
 </head>
 <body>
@@ -2990,6 +3000,7 @@ function genWorkout(id, poolName, color) {
   icon.classList.add('spinning');
 
   const w = pick(pool);
+  if (poolName === 'FRIDAY_SOLO' || poolName === 'FRIDAY_TEAM') selectedFridayWod = w.title;
   // Show exactly one Friday workout at a time.
   if (id === 'friday-solo' || id === 'friday-team') {
     const other = id === 'friday-solo' ? 'friday-team' : 'friday-solo';
@@ -3310,6 +3321,38 @@ function deleteSessionEntry(id) {
 
 function getTotalSessions() { return getSessionLog().length; }
 
+
+let selectedFridayWod = null;
+
+function hasFinishedWorkoutToday(dayIndex) {
+  const today = new Date().toDateString();
+  return getSessionLog().some(s =>
+    s.source === 'finish-button' &&
+    s.dayIndex === dayIndex &&
+    new Date(s.date).toDateString() === today
+  );
+}
+
+function finishWorkout() {
+  if (hasFinishedWorkoutToday(cur)) return;
+  const fridayWod = cur === 4 && fridayMode === 'crossfit' ? selectedFridayWod : null;
+  saveSession({
+    dayIndex: cur,
+    duration: null,
+    hrv: null,
+    rhr: null,
+    feeling: null,
+    notes: fridayWod || null,
+    source: 'finish-button'
+  });
+  const btn = document.getElementById('finish-workout-btn');
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = '✓ Workout logged';
+  }
+  showToast('Workout added to session history ✓');
+}
+
 function toggleWorkoutDetails() {
   document.body.classList.toggle('show-workout-details');
   const button = document.getElementById('details-toggle');
@@ -3375,6 +3418,15 @@ function renderDay() {
   d.phases.forEach((ph, i) => { html += phaseHtml(ph, i + 1, col, cur); });
   if (d.generatorPool) html += hiitBlockHtml(d, d.phases.length + 1);
   if (d.wodPools) html += fridayWodHtml(d, d.phases.length + 1);
+
+  html += `
+    <div class="finish-workout">
+      <button id="finish-workout-btn" class="finish-workout-btn" type="button"
+        onclick="finishWorkout()" ${hasFinishedWorkoutToday(cur) ? 'disabled' : ''}>
+        ${hasFinishedWorkoutToday(cur) ? '✓ Workout logged' : '✓ Finish workout'}
+      </button>
+      <div class="finish-workout-note">Saves this session to Stats → Sessions</div>
+    </div>`;
 
   html += `
     <div class="purpose" style="background:${col}0C;border-color:${col}28;">
