@@ -14,11 +14,11 @@
       "day": "MON",
       "label": "Monday",
       "icon": "01",
-      "theme": "Full-Body Strength A",
+      "theme": "Full-Body Strength · Main Day",
       "color": "#F2C14E",
       "type": "STRENGTH",
-      "duration": "55–65 MIN",
-      "intent": "Balanced squat, press, pull and hypertrophy. No bench-press specialization; progress each muscle group while preserving Tuesday interval quality.",
+      "duration": "75–85 MIN",
+      "intent": "Main strength session: squat, bench, vertical and horizontal pulling, overhead press, posterior chain and easy rowing.",
       "phases": [
         {
           "name": "Movement prep EMOM",
@@ -80,6 +80,24 @@
           ]
         },
         {
+          "name": "Overhead press + horizontal pull",
+          "dur": "~10 min",
+          "items": [
+            {
+              "n": "Seated dumbbell shoulder press",
+              "s": "2 × 8–12",
+              "d": "Controlled overhead press; 1–2 RIR.",
+              "compactCue": "1–2 RIR"
+            },
+            {
+              "n": "One-arm dumbbell row",
+              "s": "2 × 8–12 / side",
+              "d": "Controlled pull; support the free hand on bench.",
+              "compactCue": "2 RIR"
+            }
+          ]
+        },
+        {
           "name": "Posterior chain + hypertrophy",
           "dur": "~15 min",
           "items": [
@@ -101,9 +119,21 @@
               "compactCue": "Superset · 1–2 RIR"
             }
           ]
+        },
+        {
+          "name": "Easy RowErg finisher",
+          "dur": "10–15 min",
+          "items": [
+            {
+              "n": "Easy RowErg",
+              "s": "10–15 min",
+              "d": "Conversational pace; keep this easy rather than a second interval workout.",
+              "compactCue": "Easy · conversational pace"
+            }
+          ]
         }
       ],
-      "cue": "Log working loads and reps. Tuesday's repeatable interval watts matter more than squeezing in a fourth squat set."
+      "cue": "Monday is your primary strength day. Progress the lifts; the row is easy aerobic work, not another HIIT session."
     },
     {
       "day": "TUE",
@@ -1246,7 +1276,7 @@
     },
     {
       "title": "Aerobic minimum",
-      "body": "Thursday 50–65 min and Saturday 60–75 min deliver approximately 110–140 min of dedicated easy aerobic exercise. Tuesday 4 × 4 and Friday WOD add vigorous work but not all WOD minutes are aerobic. Add optional 10–30 min easy walking/rowing as recovery permits; 150 min Zone 2 is not a biological threshold."
+      "body": "Monday includes 10–15 min easy rowing; Thursday 50–65 min and Saturday 60–75 min provide longer dedicated easy aerobic work. Tuesday remains the primary VO₂ max session and Friday is the flexible WOD day."
     },
     {
       "title": "Intensity",
